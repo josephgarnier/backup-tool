@@ -80,8 +80,26 @@ main() {
 				echo " 2. GitKraken"
 				echo " 3. TeXstudio"
 				echo " 4. Mendeley"
+				echo " 5. Recoll"
+				echo " 6. Visual Studio Code"
 				echo ""
+				pre_task
 				ppa_source_list
+				post_task
+				pre_task
+				gitkraken
+				post_task
+				pre_task
+				texstudio
+				post_task
+				pre_task
+				mendeley
+				post_task
+				pre_task
+				recoll
+				post_task
+				pre_task
+				visual_studio_code
 				post_task
 				;;
 			"PPA source list")
@@ -105,10 +123,14 @@ main() {
 				post_task
 				;;
 			"Recoll")
-				echo "C"
+				pre_task
+				recoll
+				post_task
 				;;
 			"Visual Studio Code")
-				echo "C"
+				pre_task
+				visual_studio_code
+				post_task
 				;;
 			"Quit")
 				# Clean workspace.

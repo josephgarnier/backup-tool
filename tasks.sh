@@ -148,17 +148,85 @@ mendeley() {
 	echo "Done!"
 }
 
+#######################################
+# Backup Recoll
+# Globals:
+#   None.
+# Arguments:
+#   None.
+# Returns:
+#   None.
+#######################################
+recoll() {
+	echo "Backup Recoll."
 
+	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Recoll"
+	local -r OUTPUT_ZIP_NAME="Recoll.zip"
+	local -r OUTPUT_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_ZIP_NAME}"
+	local -r DEST_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_ZIP_NAME}"
 
-#***********************************************#
-#                    Recoll                     #
-#***********************************************#
+	echo -ne "  copy data files to temp directory... "
+	error=$(cp --parents -a "/home/joseph/.recoll" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
 
+	echo -ne "  create a zip file with content of temp directory and clean it... "
+	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
 
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"... "
+	error=$(mv -f "${OUTPUT_ZIP_PATH}" "${DEST_ZIP_PATH}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	echo "Done!"
+}
 
+#######################################
+# Backup Visual Studio Code
+# Globals:
+#   None.
+# Arguments:
+#   None.
+# Returns:
+#   None.
+#######################################
+visual_studio_code() {
+	echo "Backup Visual Studio Code."
 
-#***********************************************#
-#              Visual Studio Code               #
-#***********************************************#
+	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Visual_Studio_Code"
+	local -r OUTPUT_EXTENSIONS_ZIP_NAME="Extensions.zip"
+	local -r OUTPUT_USER_ZIP_NAME="User.zip"
+	local -r OUTPUT_EXTENSIONS_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_EXTENSIONS_ZIP_NAME}"
+	local -r OUTPUT_USER_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_USER_ZIP_NAME}"
+	local -r DEST_EXTENSIONS_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_EXTENSIONS_ZIP_NAME}"
+	local -r DEST_USER_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_USER_ZIP_NAME}"
 
+	# Extensions files
+	echo -ne "  copy extensions files to temp directory... "
+	error=$(cp --parents -a "/home/joseph/.vscode/extensions" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
 
+	echo -ne "  create a zip file with content of temp directory and clean it... "
+	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_EXTENSIONS_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_EXTENSIONS_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"... "
+	error=$(mv -f ${OUTPUT_EXTENSIONS_ZIP_PATH} ${DEST_EXTENSIONS_ZIP_PATH} 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	assert_eq "$(ls -A ${PROJECT_PATHS[TEMP]})" "" "\"/temp\" directory is not empty!"
+	
+	# User files
+	echo -ne "  copy user files to temp directory... "
+	error=$(cp --parents -a "/home/joseph/.config/Code/User" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create a zip file with content of temp directory and clean it... "
+	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_USER_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_USER_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"... "
+	error=$(mv -f ${OUTPUT_USER_ZIP_PATH} ${DEST_USER_ZIP_PATH} 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	echo "Done!"
+}
