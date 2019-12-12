@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Author Joseph Garnier
 
 declare -r -A COLORS=(
