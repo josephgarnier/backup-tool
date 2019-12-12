@@ -61,7 +61,7 @@ main() {
 		fi
 	done
 
-	if [ $(find "${WORKSPACE_PATH}" -mindepth 1 -maxdepth 1 -type d | wc -l) != "${#PROJECT_PATHS[@]}" ]; then
+	if [[ $(find "${WORKSPACE_PATH}" -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*" | wc -l) != "${#PROJECT_PATHS[@]}" ]]; then
 		echo -error "ERROR: too many folders in this project!"
 		exit -1
 	fi
