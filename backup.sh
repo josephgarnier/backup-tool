@@ -77,6 +77,9 @@ main() {
 				pre_task
 				echo "Summary of backup steps:"
 				echo " 1. PPA source list"
+				echo " 2. GitKraken"
+				echo " 3. TeXstudio"
+				echo " 4. Mendeley"
 				echo ""
 				ppa_source_list
 				post_task
@@ -92,10 +95,14 @@ main() {
 				post_task
 				;;
 			"TeXstudio")
-				echo "C"
+				pre_task
+				texstudio
+				post_task
 				;;
 			"Mendeley")
-				echo "C"
+				pre_task
+				mendeley
+				post_task
 				;;
 			"Recoll")
 				echo "C"
