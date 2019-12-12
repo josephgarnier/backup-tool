@@ -38,3 +38,37 @@ echo() {
 			;;
 	esac
 }
+
+#######################################
+# Takes two strings and checks whether they are the same based on the character strings.
+# Inspired from https://github.com/torokmark/assert.sh
+# Globals:
+#   None.
+# Arguments:
+#   -expected: expected string.
+#   -actual: current string that should be the same as expected.
+#   -message (optional): message to display if strings are not equals.
+# Returns:
+#   -0 if strings are equals or exit with code error 99.
+#######################################
+assert_eq() {
+	local -r ASSERT_FAILED=99
+	local -r expected="${1}"
+	local -r actual="${2}"
+	local msg
+
+	if [[ "$#" -ge 3 ]]; then
+		msg="$3"
+	fi
+
+	if [[ "${expected}" == "${actual}" ]]; then
+		return 0
+	else
+		# An error occured, retrieved the line and the name of the script where
+		# it happend
+		set $(caller)
+		echo "Assertion failed: \"${expected} == ${actual}\" :: ${msg}"
+		echo "File \"${0}\", line ${1}" 2>&1
+		exit ${ASSERT_FAILED}
+	fi
+}
