@@ -7,14 +7,14 @@ source tasks.sh
 #######################################
 # Pre processing of a task.
 # Globals:
-#   None
+#   None.
 # Arguments:
-#   None
+#   None.
 # Returns:
-#   None
+#   None.
 #######################################
 pre_task() {
-	if [ -n "$(ls -A ${PROJECT_PATHS[TEMP]})" ]; then
+	if [[ -n "$(ls -A ${PROJECT_PATHS[TEMP]})" ]]; then
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
 	fi
@@ -24,14 +24,14 @@ pre_task() {
 #######################################
 # Post processing of a task.
 # Globals:
-#   None
+#   None.
 # Arguments:
-#   None
+#   None.
 # Returns:
-#   None
+#   None.
 #######################################
 post_task() {
-	if [ -n "$(ls -A ${PROJECT_PATHS[TEMP]})" ]; then
+	if [[ -n "$(ls -A ${PROJECT_PATHS[TEMP]})" ]]; then
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
 	fi
@@ -55,7 +55,7 @@ main() {
 	echo "Check project structure."
 
 	for key in "${!PROJECT_PATHS[@]}"; do
-		if [ ! -d "${PROJECT_PATHS[$key]}" ]; then
+		if [[ ! -d "${PROJECT_PATHS[$key]}" ]]; then
 			echo -error "ERROR: missing folder \"/$(basename ${PROJECT_PATHS[$key]})\"!"
 			exit -1
 		fi
