@@ -230,3 +230,31 @@ visual_studio_code() {
 	
 	echo "Done!"
 }
+
+#######################################
+# Backup Linux Settings
+# Globals:
+#   None.
+# Arguments:
+#   None.
+# Returns:
+#   None.
+#######################################
+linux_settings() {
+	echo "Backup Linux Settings."
+
+	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Linux_Mint"
+	local -r OUTPUT_FILE_NAME="linux_settings.txt"
+	local -r OUTPUT_FILE_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_FILE_NAME}"
+	local -r DEST_FILE_PATH="${DEST_DIR_PATH}/${OUTPUT_FILE_NAME}"
+
+	echo -ne "  save all linux settings in \"${OUTPUT_FILE_NAME}\" in temp directory... "
+	error=$(script -e -c "dconf dump / > \"${OUTPUT_FILE_PATH}\"" /dev/null 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move setting file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR_PATH}\"... "
+	error=$(mv -f "${OUTPUT_FILE_PATH}" "${DEST_FILE_PATH}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo "Done!"
+}

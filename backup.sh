@@ -69,7 +69,7 @@ main() {
 	# Menu.
 	echo ""
 	echo "=== Backup task menu selection ==="
-	readonly -a MENU_OPTIONS=("All" "PPA source list" "GitKraken" "TeXstudio" "Mendeley" "Recoll" "Visual Studio Code" "Quit")
+	readonly -a MENU_OPTIONS=("All" "PPA source list" "GitKraken" "TeXstudio" "Mendeley" "Recoll" "Visual Studio Code" "Linux Settings" "Quit")
 	readonly PS3="Select a task to backup: "
 	select opt in "${MENU_OPTIONS[@]}"; do
 		case "${opt}" in
@@ -82,6 +82,7 @@ main() {
 				echo " 4. Mendeley"
 				echo " 5. Recoll"
 				echo " 6. Visual Studio Code"
+				echo " 7. Linux Settings"
 				echo ""
 				pre_task
 				ppa_source_list
@@ -100,6 +101,9 @@ main() {
 				post_task
 				pre_task
 				visual_studio_code
+				post_task
+				pre_task
+				linux_settings
 				post_task
 				;;
 			"PPA source list")
@@ -132,10 +136,15 @@ main() {
 				visual_studio_code
 				post_task
 				;;
+			"Linux Settings")
+				pre_task
+				linux_settings
+				post_task
+				;;
 			"Quit")
 				# Clean workspace.
 				echo "Clean \"/temp\" directory."
-				#rm -R "${PROJECT_PATHS[TEMP]}/*"
+				rm -f -r "${PROJECT_PATHS[TEMP]}/"*
 				echo "Goodbye!"
 				break
 				;;
