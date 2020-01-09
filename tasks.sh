@@ -23,7 +23,7 @@ ppa_source_list() {
 	echo -status "${?}" "${error}"
 
 	echo -ne "  save all trusted keys in sources.keys file of temp directory... "
-	error=$(apt-key exportall > "${PROJECT_PATHS[TEMP]}/sources.keys" 2>&1 1>/dev/null)
+	error=$(script -e -c "apt-key exportall > \"${PROJECT_PATHS[TEMP]}/sources.keys\"" /dev/null 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with output directory content... "
