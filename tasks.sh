@@ -90,7 +90,7 @@ texstudio() {
 	error=$(cp -T --preserve=all "/home/joseph/.config/texstudio/texstudio.ini" "${OUTPUT_FILE_PATH}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move profile file \"${OUTPUT_FILE_NAME}\" file to final destination \"${DEST_DIR_PATH}\"... "
+	echo -ne "  move profile file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR_PATH}\"... "
 	error=$(mv -f "${OUTPUT_FILE_PATH}" "${DEST_FILE_PATH}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
