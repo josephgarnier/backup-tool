@@ -258,3 +258,38 @@ linux_settings() {
 
 	echo "Done!"
 }
+
+#######################################
+# Incremental save to remote disk
+# Globals:
+#   None.
+# Arguments:
+#   None.
+# Returns:
+#   None.
+#######################################
+incremental_save_to_remote_disk() {
+	echo "Incremental save to remote disk."
+	
+	local -r -a SRC_DIR_PATH=(
+		"/home/joseph/Documents/Documents_Administratifs"
+		"/home/joseph/Documents/Graphisme_et_Modelisation"
+		"/home/joseph/Documents/Livres"
+		"/home/joseph/Documents/Reserve_Cyberdefense"
+		"/home/joseph/Documents/Scolarite"
+		"/home/joseph/Documents/Sport"
+		"/home/joseph/Documents/Travail"
+	)
+	local -r DEST_DIR_PATH="admin@192.168.0.253:/shares/Documents/Joseph"
+	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s --log-file=log.txt"
+	
+	echo "=============================" |& tee -a log.txt
+	for path in "${!SRC_DIR_PATH[@]}"; do
+		echo -e "  save content of \"${SRC_DIR_PATH[$path]}\" to \"${DEST_DIR_PATH}\" directory..."
+		rsync ${OPTIONS} "${SRC_DIR_PATH[$path]}" "${DEST_DIR_PATH}"
+		echo -status "${?}" "${?}"
+		echo "-----------------------------" |& tee -a log.txt
+	done
+
+	echo "Done!"
+}
