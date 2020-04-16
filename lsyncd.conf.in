@@ -5,10 +5,10 @@
 -- LICENSE file in the root directory of this source tree.
 
 settings {
-	logfile = "${WORKSPACE_PATH}/lsyncd.log",
-	pidfile = "${WORKSPACE_PATH}/lsyncd-pid.log",
+	logfile = "${PROJECT_LSYNCD_LOG_FILE}",
+	pidfile = "${PROJECT_LSYNCD_LOG_PID_FILE}",
 	nodaemon = true,
-	statusFile = "${WORKSPACE_PATH}/lsyncd-status.log",
+	statusFile = "${PROJECT_LSYNCD_LOG_STATUS_FILE}",
 	statusInterval = 20
 }
 

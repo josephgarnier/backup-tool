@@ -20,19 +20,19 @@ ppa_source_list() {
 
 	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Linux_Mint"
 	local -r OUTPUT_ZIP_NAME="ppa_source_list.zip"
-	local -r OUTPUT_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_ZIP_NAME}"
+	local -r OUTPUT_ZIP_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 	local -r DEST_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_ZIP_NAME}"
 
 	echo -ne "  copy source list to temp directory..."
-	error=$(cp --parents -a "/etc/apt/sources.list.d" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	error=$(cp --parents -a "/etc/apt/sources.list.d" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  save all trusted keys in sources.keys file of temp directory..."
-	error=$(script -e -c "apt-key exportall > \"${PROJECT_PATHS[TEMP]}/sources.keys\"" /dev/null 2>&1 1>/dev/null)
+	error=$(script -e -c "apt-key exportall > \"${PROJECT_TEMP_DIR}/sources.keys\"" /dev/null 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with output directory content..."
-	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"..."
@@ -56,15 +56,15 @@ gitkraken() {
 
 	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/GitKraken"
 	local -r OUTPUT_ZIP_NAME="GitKraken.zip"
-	local -r OUTPUT_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_ZIP_NAME}"
+	local -r OUTPUT_ZIP_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 	local -r DEST_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_ZIP_NAME}"
 
 	echo -ne "  copy config files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.gitkraken" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	error=$(cp --parents -a "/home/joseph/.gitkraken" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"..."
@@ -88,7 +88,7 @@ texstudio() {
 
 	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Latex"
 	local -r OUTPUT_FILE_NAME="texstudio.txsprofile"
-	local -r OUTPUT_FILE_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_FILE_NAME}"
+	local -r OUTPUT_FILE_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
 	local -r DEST_FILE_PATH="${DEST_DIR_PATH}/${OUTPUT_FILE_NAME}"
 
 	echo -ne "  copy profile file to temp directory..."
@@ -117,33 +117,33 @@ mendeley() {
 	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Latex/Mendeley"
 	local -r OUTPUT_CONFIG_ZIP_NAME="Mendeley_Desktop.conf.zip"
 	local -r OUTPUT_DATA_ZIP_NAME="Mendeley_Ltd.zip"
-	local -r OUTPUT_CONFIG_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_CONFIG_ZIP_NAME}"
-	local -r OUTPUT_DATA_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_DATA_ZIP_NAME}"
+	local -r OUTPUT_CONFIG_ZIP_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_CONFIG_ZIP_NAME}"
+	local -r OUTPUT_DATA_ZIP_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_DATA_ZIP_NAME}"
 	local -r DEST_CONFIG_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_CONFIG_ZIP_NAME}"
 	local -r DEST_DATA_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_DATA_ZIP_NAME}"
 
 	# Config files
 	echo -ne "  copy config files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.config/Mendeley Ltd." "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	error=$(cp --parents -a "/home/joseph/.config/Mendeley Ltd." "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_CONFIG_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_CONFIG_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_CONFIG_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"..."
 	error=$(mv -f ${OUTPUT_CONFIG_ZIP_PATH} ${DEST_CONFIG_ZIP_PATH} 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
-	assert_eq "$(ls -A ${PROJECT_PATHS[TEMP]})" "" "\"/temp\" directory is not empty!"
+	assert_eq "$(ls -A ${PROJECT_TEMP_DIR})" "" "\"/temp\" directory is not empty!"
 	
 	# Data files
 	echo -ne "  copy data files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	error=$(cp --parents -a "/home/joseph/.local/share/data/Mendeley Ltd./Mendeley Desktop" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_DATA_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_DATA_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_DATA_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"..."
@@ -167,15 +167,15 @@ recoll() {
 
 	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Recoll"
 	local -r OUTPUT_ZIP_NAME="Recoll.zip"
-	local -r OUTPUT_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_ZIP_NAME}"
+	local -r OUTPUT_ZIP_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 	local -r DEST_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_ZIP_NAME}"
 
 	echo -ne "  copy data files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.recoll" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	error=$(cp --parents -a "/home/joseph/.recoll" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"..."
@@ -200,33 +200,33 @@ visual_studio_code() {
 	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Visual_Studio_Code"
 	local -r OUTPUT_EXTENSIONS_ZIP_NAME="Extensions.zip"
 	local -r OUTPUT_USER_ZIP_NAME="User.zip"
-	local -r OUTPUT_EXTENSIONS_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_EXTENSIONS_ZIP_NAME}"
-	local -r OUTPUT_USER_ZIP_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_USER_ZIP_NAME}"
+	local -r OUTPUT_EXTENSIONS_ZIP_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_EXTENSIONS_ZIP_NAME}"
+	local -r OUTPUT_USER_ZIP_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_USER_ZIP_NAME}"
 	local -r DEST_EXTENSIONS_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_EXTENSIONS_ZIP_NAME}"
 	local -r DEST_USER_ZIP_PATH="${DEST_DIR_PATH}/${OUTPUT_USER_ZIP_NAME}"
 
 	# Extensions files
 	echo -ne "  copy extensions files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.vscode/extensions" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	error=$(cp --parents -a "/home/joseph/.vscode/extensions" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_EXTENSIONS_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_EXTENSIONS_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_EXTENSIONS_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"..."
 	error=$(mv -f ${OUTPUT_EXTENSIONS_ZIP_PATH} ${DEST_EXTENSIONS_ZIP_PATH} 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
-	assert_eq "$(ls -A ${PROJECT_PATHS[TEMP]})" "" "\"/temp\" directory is not empty!"
+	assert_eq "$(ls -A ${PROJECT_TEMP_DIR})" "" "\"/temp\" directory is not empty!"
 	
 	# User files
 	echo -ne "  copy user files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.config/Code/User" "${PROJECT_PATHS[TEMP]}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	error=$(cp --parents -a "/home/joseph/.config/Code/User" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_PATHS[TEMP]}" && zip -r -m "${OUTPUT_USER_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_USER_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_USER_ZIP_NAME}\" file to final destination \"${DEST_DIR_PATH}\"..."
@@ -250,7 +250,7 @@ linux_settings() {
 
 	local -r DEST_DIR_PATH="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Linux_Mint"
 	local -r OUTPUT_FILE_NAME="linux_settings.txt"
-	local -r OUTPUT_FILE_PATH="${PROJECT_PATHS[TEMP]}/${OUTPUT_FILE_NAME}"
+	local -r OUTPUT_FILE_PATH="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
 	local -r DEST_FILE_PATH="${DEST_DIR_PATH}/${OUTPUT_FILE_NAME}"
 
 	echo -ne "  save all linux settings in \"${OUTPUT_FILE_NAME}\" in temp directory..."
@@ -336,7 +336,11 @@ incremental_save_to_dropbox() {
 	
 	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
 	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && 
-		sed -i 's,${WORKSPACE_PATH},'"${WORKSPACE_PATH}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}") 2>&1 1>/dev/null)
+		sed -i 's,${PROJECT_LSYNCD_LOG_FILE},'"${PROJECT_LSYNCD_LOG_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" &&
+		sed -i 's,${PROJECT_LSYNCD_LOG_PID_FILE},'"${PROJECT_LSYNCD_LOG_PID_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" &&
+		sed -i 's,${PROJECT_LSYNCD_LOG_STATUS_FILE},'"${PROJECT_LSYNCD_LOG_STATUS_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}")
+		2>&1 1>/dev/null
+	)
 	echo -status "${?}" "${error}"
 	lsyncd -log all -log Exec "${PROJECT_LSYNCD_TMP_CONFIG_FILE}"
 	
@@ -346,5 +350,3 @@ incremental_save_to_dropbox() {
 	
 	echo -e "Done!"
 }
-
-# todo : push, renomer var project, replace  " en fin d'écho, ajouter -e aux echo, renomer  backup to backup_tool
