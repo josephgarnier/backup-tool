@@ -5,16 +5,37 @@
 -- LICENSE file in the root directory of this source tree.
 
 settings {
-	logfile = "${PROJECT_LSYNCD_LOG_FILE}",
-	pidfile = "${PROJECT_LSYNCD_LOG_PID_FILE}",
-	nodaemon = true,
-	statusFile = "${PROJECT_LSYNCD_LOG_STATUS_FILE}",
-	statusInterval = 20
+	logfile         = "${PROJECT_LSYNCD_LOG_FILE}",
+	pidfile         = "${PROJECT_LSYNCD_LOG_PID_FILE}",
+	nodaemon        = true,
+	statusFile      = "${PROJECT_LSYNCD_LOG_STATUS_FILE}",
+	statusInterval  = 20 -- update status every 20 seconds
 }
 
 sync {
-	default.rsync,
+	default.direct,
 	source = "/home/joseph/Documents/Test",
-	target = "/home/joseph/Dropbox",
-	delay = 5
+	target = "/home/joseph/Dropbox/Backup",
+	delay  = 5, -- aggregate events every 5 seconds
+	delete = true, -- --delete: this tells rsync to delete extraneous files from the receiving side (ones that aren't on the sending side), but only for the directories that are being synchronized.
+	rsync  = {
+		acls          = true, -- -A, --acls: this option causes rsync to update the destination ACLs to be the same as the source ACLs.
+		archive       = true, -- -a, --archive: this is equivalent to -rlptgoD. It is a quick way of saying you want recursion and want to preserve almost everything (with -H being a notable omission).
+		checksum      = true, -- -c, --checksum: this changes the way rsync checks if the files have been changed and are in need of a transfer.
+		
+		executability = true, -- -E, --executability: this option causes rsync to preserve the executability (or non-executability) of regular files when --perms is not enabled.
+		group         = true, -- -g, --group: this option causes rsync to set the group of the destination file to be the same as the source file.
+		hard_links    = true, -- -H, --hard-links: this tells rsync to look for hard-linked files in the transfer and link together the corresponding files on the receiving side.
+		links         = true, -- -l, --links: when symlinks are encountered, recreate the symlink on the destination.
+		owner         = true, -- -o, --owner: this option causes rsync to set the owner of the destination file to be the same as the source file, but only if the receiving rsync is being run as the super-user.
+		perms         = true, -- -p, --perms: this option causes the receiving rsync to set the destination permissions to be the same as the source permissions.
+		protect_args  = true, -- -s, --protect-args: this option sends all filenames and some options to the remote rsync without allowing the remote shell to interpret them.
+		times         = true, -- -t, --times: this tells rsync to transfer modification times along with the files and update them on the remote system.
+		verbose       = true, -- -v, --verbose: this option increases the amount of information the daemon logs during its startup phase.
+		_extra = {
+			"-i",                -- -i, --itemize-changes: requests a simple itemized list of the changes that are being made to each file, including attribute changes.
+			"--log-file=${PROJECT_LSYNCD_LOG_RSYNC_FILE}", --log-file=FILE: this option tells the rsync daemon to use the given log-file name instead of using the lqlog filerq setting in the config file.
+			"--progress"         -- --progress: this option tells rsync to print information showing the progress of the transfer.
+		}
+	}
 }

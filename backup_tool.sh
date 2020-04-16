@@ -123,6 +123,7 @@ main() {
 
 	readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
 	readonly PROJECT_LSYNCD_LOG_FILE="${PROJECT_LOG_DIR}/lsyncd.log"
+	readonly PROJECT_LSYNCD_LOG_RSYNC_FILE="${PROJECT_LOG_DIR}/lsyncd-rsync.log"
 	readonly PROJECT_LSYNCD_LOG_PID_FILE="${PROJECT_LOG_DIR}/lsyncd-pid.log"
 	readonly PROJECT_LSYNCD_LOG_STATUS_FILE="${PROJECT_LOG_DIR}/lsyncd-status.log"
 	readonly PROJECT_LSYNCD_CONFIG_FILE="${WORKSPACE_DIR}/lsyncd.conf.in"
@@ -155,9 +156,9 @@ main() {
 				post_task
 				;;
 			"Incremental save to Dropbox")
-				# pre_task
+				pre_task
 				incremental_save_to_dropbox
-				# post_task
+				post_task
 				;;
 			"Backup all apps")
 				pre_task
