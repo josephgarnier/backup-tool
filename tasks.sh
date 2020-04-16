@@ -271,6 +271,13 @@ linux_settings() {
 incremental_save_to_remote_disk() {
 	echo "Incremental save to remote disk."
 	
+	#Looking for rsync
+	which rsync > /dev/null
+	if [[ "${?}" -ne 0 ]]; then
+		echo -e "rsync command not found!"
+		exit -1
+	fi
+
 	local -r -a SRC_DIR_PATH=(
 		"/home/joseph/Documents/Documents_Administratifs"
 		"/home/joseph/Documents/Graphisme_et_Modelisation"

@@ -27,8 +27,8 @@ echo() {
 			echo -e "\e[31m${code}\e[0m"
 			;;
 		"-status")
-			if [ "${code}" -eq 0 ]; then
-				echo -e "${COLORS[GREEN]}[success]${COLORS[RESET]}"
+			if [[ "${code}" -eq 0 ]]; then
+				echo -e " ${COLORS[GREEN]}[success]${COLORS[RESET]}"
 			else
 				echo -e " ${COLORS[RED]}[fail]: ${error}${COLORS[RESET]}"
 			fi
