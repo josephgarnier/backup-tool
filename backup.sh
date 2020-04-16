@@ -18,7 +18,7 @@ pre_task() {
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
 	fi
-	echo "---------------------------------------------"
+	echo -e "---------------------------------------------"
 }
 
 #######################################
@@ -35,7 +35,7 @@ post_task() {
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
 	fi
-	echo ""
+	echo -e ""
 }
 
 #######################################
@@ -48,8 +48,8 @@ post_task() {
 #   None.
 #######################################
 submenu_application_selection() {
-	echo ""
-	echo "=== Specific app menu selection ==="
+	echo -e ""
+	echo -e "=== Specific app menu selection ==="
 	local -r -a MENU_OPTIONS=("PPA source list" "GitKraken" "TeXstudio" "Mendeley" "Recoll" "Visual Studio Code" "Linux Settings" "Quit")
 	local -r PS3="Select an application to backup: "
 	select opt in "${MENU_OPTIONS[@]}"; do
@@ -93,7 +93,7 @@ submenu_application_selection() {
 				break
 				;;
 			*)
-				echo "Invalid option ${REPLY}. Try another one."
+				echo -e "Invalid option ${REPLY}. Try another one."
 				continue
 				;;
 		esac
@@ -101,12 +101,12 @@ submenu_application_selection() {
 }
 
 main() {
-	echo "============================================="
-	echo "               Backup Tool                   "
-	echo "============================================="
+	echo -e "============================================="
+	echo -e "               Backup Tool                   "
+	echo -e "============================================="
 
 	# Global variables declaration.
-	echo "Initialize global variables."
+	echo -e "Initialize global variables."
 
 	readonly WORKSPACE_PATH=$(pwd)
 	readonly -A PROJECT_PATHS=(
@@ -118,7 +118,7 @@ main() {
 	readonly PROJECT_LSYNCD_TMP_CONFIG_FILE="${PROJECT_PATHS[TEMP]}/lsyncd.conf"
 
 	# Check project structure.
-	echo "Check project structure."
+	echo -e "Check project structure."
 
 	for key in "${!PROJECT_PATHS[@]}"; do
 		if [[ ! -d "${PROJECT_PATHS[$key]}" ]]; then
@@ -133,8 +133,8 @@ main() {
 	fi
 
 	# Menu.
-	echo ""
-	echo "=== Backup-Tool menu selection ==="
+	echo -e ""
+	echo -e "=== Backup-Tool menu selection ==="
 	local -r -a MENU_OPTIONS=("Incremental save to remote disk" "Incremental save to Dropbox" "Backup all apps" "Backup specific apps" "Quit")
 	local -r PS3="Select a task: "
 	select opt in "${MENU_OPTIONS[@]}"; do
@@ -151,15 +151,15 @@ main() {
 				;;
 			"Backup all apps")
 				pre_task
-				echo "Summary of backup steps:"
-				echo " 1. PPA source list"
-				echo " 2. GitKraken"
-				echo " 3. TeXstudio"
-				echo " 4. Mendeley"
-				echo " 5. Recoll"
-				echo " 6. Visual Studio Code"
-				echo " 7. Linux Settings"
-				echo ""
+				echo -e "Summary of backup steps:"
+				echo -e " 1. PPA source list"
+				echo -e " 2. GitKraken"
+				echo -e " 3. TeXstudio"
+				echo -e " 4. Mendeley"
+				echo -e " 5. Recoll"
+				echo -e " 6. Visual Studio Code"
+				echo -e " 7. Linux Settings"
+				echo -e ""
 				pre_task
 				ppa_source_list
 				post_task
@@ -187,13 +187,13 @@ main() {
 				;;
 			"Quit")
 				# Clean workspace.
-				echo "Clean \"/temp\" directory."
+				echo -e "Clean \"/temp\" directory."
 				rm -f -r "${PROJECT_PATHS[TEMP]}/"*
-				echo "Goodbye!"
+				echo -e "Goodbye!"
 				break
 				;;
 			*)
-				echo "Invalid option ${REPLY}. Try another one."
+				echo -e "Invalid option ${REPLY}. Try another one."
 				continue
 				;;
 		esac
