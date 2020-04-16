@@ -281,15 +281,58 @@ incremental_save_to_remote_disk() {
 		"/home/joseph/Documents/Travail"
 	)
 	local -r DEST_DIR_PATH="admin@192.168.0.253:/shares/Documents/Joseph"
-	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s --log-file=log.txt"
+	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s --log-file=${PROJECT_LOG_FILE}"
 	
-	echo "=============================" |& tee -a log.txt
+	echo -e "=============================" |& tee -a "${PROJECT_LOG_FILE}"
 	for path in "${!SRC_DIR_PATH[@]}"; do
 		echo -e "  save content of \"${SRC_DIR_PATH[$path]}\" to \"${DEST_DIR_PATH}\" directory..."
 		rsync ${OPTIONS} "${SRC_DIR_PATH[$path]}" "${DEST_DIR_PATH}"
 		echo -status "${?}" "${?}"
-		echo "-----------------------------" |& tee -a log.txt
+		echo -e "-----------------------------" |& tee -a "${PROJECT_LOG_FILE}"
 	done
 
 	echo "Done!"
 }
+
+#######################################
+# Incremental save to Dropbox
+# Globals:
+#   None.
+# Arguments:
+#   None.
+# Returns:
+#   None.
+#######################################
+incremental_save_to_dropbox() {
+	echo "Incremental save to Dropbox."
+	
+	#Looking for rsync
+	which rsync > /dev/null
+	if [[ "${?}" -ne 0 ]]; then
+		echo -e "rsync command not found!"
+		exit -1
+	fi
+	#Looking for rsync
+	which lsyncd > /dev/null
+	if [[ "${?}" -ne 0 ]]; then
+		echo -e "lsyncd command not found!"
+		exit -1
+	fi
+
+	local -r SRC_DIR_PATH="/home/joseph/Documents/Test"
+	local -r DROPBOX_DEST_DIR_PATH="/home/joseph/Dropbox"
+	
+	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
+	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && 
+		sed -i 's,${WORKSPACE_PATH},'"${WORKSPACE_PATH}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}") 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	lsyncd -log all -log Exec "${PROJECT_LSYNCD_TMP_CONFIG_FILE}"
+	
+	echo -ne "  remove the config file from temp directory..."
+	error=$(rm -f "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	echo -e "Done!"
+}
+
+# todo : push, renomer var project, replace  " en fin d'écho, ajouter -e aux echo, renomer  backup to backup_tool

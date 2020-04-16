@@ -1,0 +1,14 @@
+settings {
+	logfile = "${WORKSPACE_PATH}/lsyncd.log",
+	pidfile = "${WORKSPACE_PATH}/lsyncd-pid.log",
+	nodaemon = true,
+	statusFile = "${WORKSPACE_PATH}/lsyncd-status.log",
+	statusInterval = 20
+}
+
+sync {
+	default.rsync,
+	source = "/home/joseph/Documents/Test",
+	target = "/home/joseph/Dropbox",
+	delay = 5
+}

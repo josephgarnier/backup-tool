@@ -113,6 +113,10 @@ main() {
 		[TEMP]="${WORKSPACE_PATH}/temp"
 	)
 
+	readonly PROJECT_LOG_FILE="${WORKSPACE_PATH}/backup_tool.log"
+	readonly PROJECT_LSYNCD_CONFIG_FILE="${WORKSPACE_PATH}/lsyncd.conf.in"
+	readonly PROJECT_LSYNCD_TMP_CONFIG_FILE="${PROJECT_PATHS[TEMP]}/lsyncd.conf"
+
 	# Check project structure.
 	echo "Check project structure."
 
@@ -131,12 +135,19 @@ main() {
 	# Menu.
 	echo ""
 	echo "=== Backup-Tool menu selection ==="
-	local -r -a MENU_OPTIONS=("Incremental save to remote disk" "Backup all apps" "Backup specific apps" "Quit")
+	local -r -a MENU_OPTIONS=("Incremental save to remote disk" "Incremental save to Dropbox" "Backup all apps" "Backup specific apps" "Quit")
 	local -r PS3="Select a task: "
 	select opt in "${MENU_OPTIONS[@]}"; do
 		case "${opt}" in
 			"Incremental save to remote disk")
+				pre_task
 				incremental_save_to_remote_disk
+				post_task
+				;;
+			"Incremental save to Dropbox")
+				# pre_task
+				incremental_save_to_dropbox
+				# post_task
 				;;
 			"Backup all apps")
 				pre_task
