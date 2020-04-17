@@ -318,13 +318,64 @@ incremental_save_to_remote_disk() {
 incremental_save_to_dropbox() {
 	echo -e "Incremental save to Dropbox."
 	
-	#Looking for rsync
+	# Looking for rsync
 	which rsync > /dev/null
 	if [[ "${?}" -ne 0 ]]; then
 		echo -e "rsync command not found!"
 		exit -1
 	fi
-	#Looking for dropbox
+	# Looking for Dropbox
+	which dropbox > /dev/null
+	if [[ "${?}" -ne 0 ]]; then
+		echo -e "dropbox command not found!"
+		exit -1
+	fi
+
+	# Start Dropbox if not started
+	if [[ "$(dropbox status)" != "Up to date" ]]; then
+		echo -e "  start Dropbox..."
+		dropbox start
+		while [[ "$(dropbox status)" != "Up to date" ]]; do
+			sleep 1
+		done
+		echo -status "${?}" "${?}"
+		sleep 1
+	fi
+	
+	local -r -a SRC_DIRS=( \
+		"/home/joseph/Documents/Documents_Administratifs" \
+		"/home/joseph/Documents/Graphisme_et_Modelisation" \
+		"/home/joseph/Documents/Livres" \
+		"/home/joseph/Documents/Reserve_Cyberdefense" \
+		"/home/joseph/Documents/Scolarite" \
+		"/home/joseph/Documents/Sport" \
+		"/home/joseph/Documents/Travail" \
+	)
+	local -r DROPBOX_DEST_DIR="/home/joseph/Dropbox/Backup"
+	local -r OPTIONS="--archive --hard-links --acls --xattrs --verbose --progress --delete --checksum --itemize-changes --protect-args --log-file=${PROJECT_LOG_FILE}"
+	
+	echo -e "=============================" |& tee -a "${PROJECT_LOG_FILE}"
+	for path in "${!SRC_DIRS[@]}"; do
+		echo -e "  save content of \"${SRC_DIRS[$path]}\" to \"${DROPBOX_DEST_DIR}\" directory..."
+		rsync ${OPTIONS} "${SRC_DIRS[$path]}" "${DROPBOX_DEST_DIR}"
+		echo -status "${?}" "${?}"
+		echo -e "-----------------------------" |& tee -a "${PROJECT_LOG_FILE}"
+	done
+	
+	# Wait for Dropbox finish synchronization
+	echo -ne "  wait for Dropbox finish synchronization before shutdown it..."
+	while [[ "$(dropbox status)" != "Up to date" ]]; do
+		sleep 1
+	done
+	echo -status "${?}" "${?}"
+	
+	# Stop Dropbox
+	echo -e "  stop Dropbox..."
+	dropbox stop
+	while [[ "$(dropbox status)" != "Dropbox isn't running!" ]]; do
+		sleep 1
+	done
+	echo -status "${?}" "${?}"
 	
 	echo -e "Done!"
 }
