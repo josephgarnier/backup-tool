@@ -276,7 +276,7 @@ linux_settings() {
 incremental_save_to_remote_disk() {
 	echo -e "Incremental save to remote disk."
 	
-	#Looking for rsync
+	# Looking for rsync
 	which rsync > /dev/null
 	if [[ "${?}" -ne 0 ]]; then
 		echo -e "rsync command not found!"
@@ -404,9 +404,6 @@ start_dropbox_synchronizer_daemon() {
 		echo -e "lsyncd command not found!"
 		exit -1
 	fi
-
-	local -r SRC_DIR_PATH="/home/joseph/Documents/Test"
-	local -r DROPBOX_DEST_DIR_PATH="/home/joseph/Dropbox"
 
 	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
 	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
