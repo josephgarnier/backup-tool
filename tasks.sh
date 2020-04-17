@@ -283,14 +283,14 @@ incremental_save_to_remote_disk() {
 		exit -1
 	fi
 
-	local -r -a SRC_DIR_PATH=(
-		"/home/joseph/Documents/Documents_Administratifs"
-		"/home/joseph/Documents/Graphisme_et_Modelisation"
-		"/home/joseph/Documents/Livres"
-		"/home/joseph/Documents/Reserve_Cyberdefense"
-		"/home/joseph/Documents/Scolarite"
-		"/home/joseph/Documents/Sport"
-		"/home/joseph/Documents/Travail"
+	local -r -a SRC_DIR_PATH=( \
+		"/home/joseph/Documents/Documents_Administratifs" \
+		"/home/joseph/Documents/Graphisme_et_Modelisation" \
+		"/home/joseph/Documents/Livres" \
+		"/home/joseph/Documents/Reserve_Cyberdefense" \
+		"/home/joseph/Documents/Scolarite" \
+		"/home/joseph/Documents/Sport" \
+		"/home/joseph/Documents/Travail" \
 	)
 	local -r DEST_DIR_PATH="admin@192.168.0.253:/shares/Documents/Joseph"
 	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s --log-file=${PROJECT_LOG_FILE}"
@@ -324,7 +324,30 @@ incremental_save_to_dropbox() {
 		echo -e "rsync command not found!"
 		exit -1
 	fi
+	#Looking for dropbox
+	
+	echo -e "Done!"
+}
+
+#######################################
+# Start Dropbox synchronizer daemon
+# Globals:
+#   None.
+# Arguments:
+#   None.
+# Returns:
+#   None.
+#######################################
+start_dropbox_synchronizer_daemon() {
+	echo -e "Start Dropbox synchronizer daemon."
+	
 	#Looking for rsync
+	which rsync > /dev/null
+	if [[ "${?}" -ne 0 ]]; then
+		echo -e "rsync command not found!"
+		exit -1
+	fi
+	#Looking for lsyncd
 	which lsyncd > /dev/null
 	if [[ "${?}" -ne 0 ]]; then
 		echo -e "lsyncd command not found!"
@@ -335,31 +358,46 @@ incremental_save_to_dropbox() {
 	local -r DROPBOX_DEST_DIR_PATH="/home/joseph/Dropbox"
 
 	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
-	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && 
-		sed -i 's,${PROJECT_LSYNCD_LOG_FILE},'"${PROJECT_LSYNCD_LOG_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" &&
-		sed -i 's,${PROJECT_LSYNCD_LOG_RSYNC_FILE},'"${PROJECT_LSYNCD_LOG_RSYNC_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" &&
-		sed -i 's,${PROJECT_LSYNCD_LOG_PID_FILE},'"${PROJECT_LSYNCD_LOG_PID_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" &&
-		sed -i 's,${PROJECT_LSYNCD_LOG_STATUS_FILE},'"${PROJECT_LSYNCD_LOG_STATUS_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}")
-		2>&1 1>/dev/null
+	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_LOG_FILE},'"${PROJECT_LSYNCD_LOG_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_LOG_RSYNC_FILE},'"${PROJECT_LSYNCD_LOG_RSYNC_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_LOG_PID_FILE},'"${PROJECT_LSYNCD_LOG_PID_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_LOG_STATUS_FILE},'"${PROJECT_LSYNCD_LOG_STATUS_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}") \
+		2>&1 1>/dev/null \
 	)
 	echo -status "${?}" "${error}"
 	
 	echo -ne "  erase the existing log files of the task..."
-	error=$((truncate -s 0 "${PROJECT_LSYNCD_LOG_FILE}" &&
-		truncate -s 0 "${PROJECT_LSYNCD_LOG_RSYNC_FILE}" &&
-		truncate -s 0 "${PROJECT_LSYNCD_LOG_PID_FILE}" &&
-		truncate -s 0 "${PROJECT_LSYNCD_LOG_STATUS_FILE}")
-		2>&1 1>/dev/null
+	error=$((truncate -s 0 "${PROJECT_LSYNCD_LOG_FILE}" && \
+		truncate -s 0 "${PROJECT_LSYNCD_LOG_RSYNC_FILE}" && \
+		truncate -s 0 "${PROJECT_LSYNCD_LOG_PID_FILE}" && \
+		truncate -s 0 "${PROJECT_LSYNCD_LOG_STATUS_FILE}") \
+		2>&1 1>/dev/null \
 	)
 	echo -status "${?}" "${error}"
 	
 	echo -e "  start the lsyncd process."
 	lsyncd -log all -log Exec "${PROJECT_LSYNCD_TMP_CONFIG_FILE}"
 	echo -e "  the lsyncd process is stopped."
-	
+
 	echo -ne "  remove the config file from \"temp/\" directory..."
 	error=$(rm -f "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
+	
+	echo -e "Done!"
+}
+
+#######################################
+# Stop Dropbox synchronizer daemon
+# Globals:
+#   None.
+# Arguments:
+#   None.
+# Returns:
+#   None.
+#######################################
+stop_dropbox_synchronizer_daemon() {
+	echo -e "Stop Dropbox synchronizer daemon."
 	
 	echo -e "Done!"
 }

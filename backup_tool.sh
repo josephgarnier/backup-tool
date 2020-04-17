@@ -54,7 +54,16 @@ post_task() {
 submenu_application_selection() {
 	echo -e ""
 	echo -e "=== Specific app menu selection ==="
-	local -r -a MENU_OPTIONS=("PPA source list" "GitKraken" "TeXstudio" "Mendeley" "Recoll" "Visual Studio Code" "Linux Settings" "Quit")
+	local -r -a MENU_OPTIONS=( \
+		"PPA source list" \
+		"GitKraken" \
+		"TeXstudio" \
+		"Mendeley" \
+		"Recoll" \
+		"Visual Studio Code" \
+		"Linux Settings" \
+		"Quit" \
+	)
 	local -r PS3="Select an application to backup: "
 	select opt in "${MENU_OPTIONS[@]}"; do
 		case "${opt}" in
@@ -116,9 +125,9 @@ main() {
 	readonly PROJECT_TEMP_DIR="${WORKSPACE_DIR}/temp"
 	readonly PROJECT_LOG_DIR="${WORKSPACE_DIR}/log"
 	
-	readonly -a PROJECT_DIRS=(
-		"${PROJECT_TEMP_DIR}"
-		"${PROJECT_LOG_DIR}"
+	readonly -a PROJECT_DIRS=( \
+		"${PROJECT_TEMP_DIR}" \
+		"${PROJECT_LOG_DIR}" \
 	)
 
 	readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
@@ -146,11 +155,19 @@ main() {
 	# Menu.
 	echo -e ""
 	echo -e "=== Backup-Tool menu selection ==="
-	local -r -a MENU_OPTIONS=("Incremental save to remote disk" "Incremental save to Dropbox" "Backup all apps" "Backup specific apps" "Quit")
+	local -r -a MENU_OPTIONS=( \
+		"Incremental save to Remote Disk" \
+		"Incremental save to Dropbox" \
+		"Start Dropbox synchronizer daemon" \
+		"Stop Dropbox synchronizer daemon" \
+		"Backup all apps" \
+		"Backup specific apps" \
+		"Quit" \
+	)
 	local -r PS3="Select a task: "
 	select opt in "${MENU_OPTIONS[@]}"; do
 		case "${opt}" in
-			"Incremental save to remote disk")
+			"Incremental save to Remote Disk")
 				pre_task
 				incremental_save_to_remote_disk
 				post_task
@@ -158,6 +175,16 @@ main() {
 			"Incremental save to Dropbox")
 				pre_task
 				incremental_save_to_dropbox
+				post_task
+				;;
+			"Start Dropbox synchronizer daemon")
+				pre_task
+				start_dropbox_synchronizer_daemon
+				post_task
+				;;
+			"Stop Dropbox synchronizer daemon")
+				pre_task
+				stop_dropbox_synchronizer_daemon
 				post_task
 				;;
 			"Backup all apps")

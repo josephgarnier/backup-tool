@@ -5,11 +5,11 @@
 # LICENSE file in the root directory of this source tree.
 
 #!/bin/bash
-declare -r -A COLORS=(
-	[GREEN]="\e[32m"
-	[RED]="\e[31m"
-	[WHITE]="\e[37m"
-	[RESET]="\e[0m"
+declare -r -A COLORS=( \
+	[GREEN]="\e[32m" \
+	[RED]="\e[31m" \
+	[WHITE]="\e[37m" \
+	[RESET]="\e[0m" \
 )
 
 #######################################
