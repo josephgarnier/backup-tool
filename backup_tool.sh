@@ -165,76 +165,85 @@ main() {
 		"Quit" \
 	)
 	local -r PS3="Select a task: "
-	select opt in "${MENU_OPTIONS[@]}"; do
-		case "${opt}" in
-			"Incremental save to Remote Disk")
-				pre_task
-				incremental_save_to_remote_disk
-				post_task
-				;;
-			"Incremental save to Dropbox")
-				pre_task
-				incremental_save_to_dropbox
-				post_task
-				;;
-			"Start Dropbox synchronizer daemon")
-				pre_task
-				start_dropbox_synchronizer_daemon
-				post_task
-				;;
-			"Stop Dropbox synchronizer daemon")
-				pre_task
-				stop_dropbox_synchronizer_daemon
-				post_task
-				;;
-			"Backup all apps")
-				pre_task
-				echo -e "Summary of backup steps:"
-				echo -e " 1. PPA source list"
-				echo -e " 2. GitKraken"
-				echo -e " 3. TeXstudio"
-				echo -e " 4. Mendeley"
-				echo -e " 5. Recoll"
-				echo -e " 6. Visual Studio Code"
-				echo -e " 7. Linux Settings"
-				echo -e ""
-				pre_task
-				ppa_source_list
-				post_task
-				pre_task
-				gitkraken
-				post_task
-				pre_task
-				texstudio
-				post_task
-				pre_task
-				mendeley
-				post_task
-				pre_task
-				recoll
-				post_task
-				pre_task
-				visual_studio_code
-				post_task
-				pre_task
-				linux_settings
-				post_task
-				;;
-			"Backup specific apps")
-				submenu_application_selection
-				;;
-			"Quit")
-				# Clean workspace.
-				echo -e "Clean \"temp/\" directory."
-				rm -f -r "${PROJECT_TEMP_DIR}/"*
-				echo -e "Goodbye!"
-				break
-				;;
-			*)
-				echo -e "Invalid option ${REPLY}. Try another one."
-				continue
-				;;
-		esac
+	while true; do
+		select opt in "${MENU_OPTIONS[@]}"; do
+			case "${opt}" in
+				"Incremental save to Remote Disk")
+					pre_task
+					incremental_save_to_remote_disk
+					post_task
+					break
+					;;
+				"Incremental save to Dropbox")
+					pre_task
+					incremental_save_to_dropbox
+					post_task
+					break
+					;;
+				"Start Dropbox synchronizer daemon")
+					pre_task
+					start_dropbox_synchronizer_daemon
+					post_task
+					break
+					;;
+				"Stop Dropbox synchronizer daemon")
+					pre_task
+					stop_dropbox_synchronizer_daemon
+					post_task
+					break
+					;;
+				"Backup all apps")
+					pre_task
+					echo -e "Summary of backup steps:"
+					echo -e " 1. PPA source list"
+					echo -e " 2. GitKraken"
+					echo -e " 3. TeXstudio"
+					echo -e " 4. Mendeley"
+					echo -e " 5. Recoll"
+					echo -e " 6. Visual Studio Code"
+					echo -e " 7. Linux Settings"
+					echo -e ""
+					pre_task
+					ppa_source_list
+					post_task
+					pre_task
+					gitkraken
+					post_task
+					pre_task
+					texstudio
+					post_task
+					pre_task
+					mendeley
+					post_task
+					pre_task
+					recoll
+					post_task
+					pre_task
+					visual_studio_code
+					post_task
+					pre_task
+					linux_settings
+					post_task
+					break
+					;;
+				"Backup specific apps")
+					submenu_application_selection
+					break
+					;;
+				"Quit")
+					# Clean workspace.
+					echo -e ""
+					echo -e "Clean \"temp/\" directory."
+					rm -f -r "${PROJECT_TEMP_DIR}/"*
+					echo -e "Goodbye!"
+					break 2
+					;;
+				*)
+					echo -e "Invalid option ${REPLY}. Try another one."
+					continue
+					;;
+			esac
+		done
 	done
 }
 
