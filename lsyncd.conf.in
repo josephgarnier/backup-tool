@@ -32,6 +32,7 @@ sync {
 		protect_args  = true, -- -s, --protect-args: this option sends all filenames and some options to the remote rsync without allowing the remote shell to interpret them.
 		times         = true, -- -t, --times: this tells rsync to transfer modification times along with the files and update them on the remote system.
 		verbose       = true, -- -v, --verbose: this option increases the amount of information the daemon logs during its startup phase.
+		xattrs        = true, -- -X, --xattrs: this option causes rsync to update the remote extended attributes to be the same as the local ones.
 		_extra = {
 			"-i",                -- -i, --itemize-changes: requests a simple itemized list of the changes that are being made to each file, including attribute changes.
 			"--log-file=${PROJECT_LSYNCD_LOG_RSYNC_FILE}", --log-file=FILE: this option tells the rsync daemon to use the given log-file name instead of using the lqlog filerq setting in the config file.
