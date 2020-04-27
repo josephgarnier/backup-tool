@@ -21,7 +21,7 @@ readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
 #######################################
 log() {
 	local -r text="${1}"
-	echo -e "$(date +"%Y/%m/%d %H:%M:%S") [$$] ${text}" 1>>"${PROJECT_LOG_FILE}" 2>&1
+	echo -e "$(date +"%Y/%m/%d %H:%M:%S") [$$] ${text}" |& tee -a "${PROJECT_LOG_FILE}"
 }
 
 #######################################
