@@ -9,7 +9,8 @@ settings {
 	pidfile         = "${PROJECT_LSYNCD_LOG_PID_FILE}",
 	nodaemon        = true,
 	statusFile      = "${PROJECT_LSYNCD_LOG_STATUS_FILE}",
-	statusInterval  = 20 -- update status every 20 seconds
+	statusInterval  = 20, -- update status every 20 seconds
+	maxProcesses    = 1
 }
 
 sources = {
@@ -19,12 +20,13 @@ sources = {
 
 for i, source in ipairs(sources) do
 	sync {
-		default.direct,
+		default.rsync,
 		source = source,
 		target = "/home/joseph/Dropbox/Backup",
 		delay  = 5, -- aggregate events every 5 seconds
 		delete = true, -- --delete: this tells rsync to delete extraneous files from the receiving side (ones that aren't on the sending side), but only for the directories that are being synchronized.
 		rsync  = {
+			binary        = "${PROJECT_DIR}/lsyncd_handler.sh",
 			acls          = true, -- -A, --acls: this option causes rsync to update the destination ACLs to be the same as the source ACLs.
 			archive       = true, -- -a, --archive: this is equivalent to -rlptgoD. It is a quick way of saying you want recursion and want to preserve almost everything (with -H being a notable omission).
 			checksum      = true, -- -c, --checksum: this changes the way rsync checks if the files have been changed and are in need of a transfer.
