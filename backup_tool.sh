@@ -121,9 +121,9 @@ main() {
 	# Global variables declaration.
 	echo -e "Initialize global variables."
 
-	readonly WORKSPACE_DIR=$(pwd)
-	readonly PROJECT_TEMP_DIR="${WORKSPACE_DIR}/temp"
-	readonly PROJECT_LOG_DIR="${WORKSPACE_DIR}/log"
+	readonly PROJECT_DIR=$(pwd)
+	readonly PROJECT_TEMP_DIR="${PROJECT_DIR}/temp"
+	readonly PROJECT_LOG_DIR="${PROJECT_DIR}/log"
 	
 	readonly -a PROJECT_DIRS=( \
 		"${PROJECT_TEMP_DIR}" \
@@ -135,7 +135,7 @@ main() {
 	readonly PROJECT_LSYNCD_LOG_RSYNC_FILE="${PROJECT_LOG_DIR}/lsyncd-rsync.log"
 	readonly PROJECT_LSYNCD_LOG_PID_FILE="${PROJECT_LOG_DIR}/lsyncd-pid.log"
 	readonly PROJECT_LSYNCD_LOG_STATUS_FILE="${PROJECT_LOG_DIR}/lsyncd-status.log"
-	readonly PROJECT_LSYNCD_CONFIG_FILE="${WORKSPACE_DIR}/lsyncd.conf.in"
+	readonly PROJECT_LSYNCD_CONFIG_FILE="${PROJECT_DIR}/lsyncd.conf.in"
 	readonly PROJECT_LSYNCD_TMP_CONFIG_FILE="${PROJECT_TEMP_DIR}/lsyncd.conf"
 
 	# Check project structure.
@@ -147,7 +147,7 @@ main() {
 			exit -1
 		fi
 	done
-	if [[ $(find "${WORKSPACE_DIR}" -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*" | wc -l) != "${#PROJECT_DIRS[@]}" ]]; then
+	if [[ $(find "${PROJECT_DIR}" -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*" | wc -l) != "${#PROJECT_DIRS[@]}" ]]; then
 		echo -error "ERROR: too many folders in this project!"
 		exit -1
 	fi
