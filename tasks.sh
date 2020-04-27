@@ -296,14 +296,14 @@ incremental_save_to_remote_disk() {
 		"/home/joseph/Documents/Travail" \
 	)
 	local -r DEST_DIR="admin@192.168.0.253:/shares/Documents/Joseph"
-	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s --log-file=${PROJECT_LOG_FILE}"
+	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s"
 	
-	echo -e "=============================" |& tee -a "${PROJECT_LOG_FILE}"
+	echo -e "============================="
 	for path in "${!SRC_DIRS[@]}"; do
 		echo -e "  save content of \"${SRC_DIRS[$path]}\" to \"${DEST_DIR}\" directory..."
 		rsync ${OPTIONS} "${SRC_DIRS[$path]}" "${DEST_DIR}"
 		echo -status "${?}" "${?}"
-		echo -e "-----------------------------" |& tee -a "${PROJECT_LOG_FILE}"
+		echo -e "-----------------------------"
 	done
 
 	echo -e "Done!"
@@ -356,14 +356,14 @@ incremental_save_to_dropbox() {
 		"/home/joseph/Documents/Travail" \
 	)
 	local -r DROPBOX_DEST_DIR="/home/joseph/Dropbox/Backup"
-	local -r OPTIONS="--archive --hard-links --acls --xattrs --verbose --progress --delete --checksum --itemize-changes --protect-args --log-file=${PROJECT_LOG_FILE}"
+	local -r OPTIONS="--archive --hard-links --acls --xattrs --verbose --progress --delete --checksum --itemize-changes --protect-args"
 	
-	echo -e "=============================" |& tee -a "${PROJECT_LOG_FILE}"
+	echo -e "============================="
 	for path in "${!SRC_DIRS[@]}"; do
 		echo -e "  save content of \"${SRC_DIRS[$path]}\" to \"${DROPBOX_DEST_DIR}\" directory..."
 		rsync ${OPTIONS} "${SRC_DIRS[$path]}" "${DROPBOX_DEST_DIR}"
 		echo -status "${?}" "${?}"
-		echo -e "-----------------------------" |& tee -a "${PROJECT_LOG_FILE}"
+		echo -e "-----------------------------"
 	done
 	
 	# Wait for Dropbox finish synchronization
