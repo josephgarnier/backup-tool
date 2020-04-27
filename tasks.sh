@@ -434,7 +434,7 @@ start_dropbox_synchronizer_daemon() {
 	echo -status "${?}" "${error}"
 	
 	echo -e "  start the lsyncd process."
-	lsyncd -log all -log Exec "${PROJECT_LSYNCD_TMP_CONFIG_FILE}"
+	lsyncd -log all "${PROJECT_LSYNCD_TMP_CONFIG_FILE}"
 	echo -e "  the lsyncd process is stopped."
 
 	echo -ne "  remove the config file from \"temp/\" directory..."
