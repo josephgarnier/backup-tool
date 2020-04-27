@@ -5,6 +5,7 @@
 # LICENSE file in the root directory of this source tree.
 
 #!/bin/bash
+
 readonly -A COLORS=( \
 	[GREEN]="\e[32m" \
 	[RED]="\e[31m" \

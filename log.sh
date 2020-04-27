@@ -6,6 +6,10 @@
 
 #!/bin/bash
 
+source global.sh
+
+readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
+
 #######################################
 # Log command.
 # Globals:
@@ -17,7 +21,7 @@
 #######################################
 log() {
 	local -r text="${1}"
-	echo -e "$(date +"%Y/%m/%d %H:%M:%S") [$$] ${text}" 1>>"test.log" 2>&1
+	echo -e "$(date +"%Y/%m/%d %H:%M:%S") [$$] ${text}" 1>>"${PROJECT_LOG_FILE}" 2>&1
 }
 
 #######################################

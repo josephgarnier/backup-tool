@@ -6,6 +6,9 @@
 
 #!/bin/bash
 
+source log.sh
+source utility.sh
+
 #######################################
 # Backup the PPA source list
 # Globals:
