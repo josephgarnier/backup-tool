@@ -13,16 +13,17 @@ settings {
 	maxProcesses    = 1
 }
 
-sources = {
-	"/home/joseph/Documents/Test",
-	"/home/joseph/Documents/Test_2"
+-- key is full path directory, value is directory name
+local sources = {
+	["/home/joseph/Documents/Test"]   = "Test",
+	["/home/joseph/Documents/Test_2"] = "Test_2"
 }
 
-for i, source in ipairs(sources) do
+for full_path, dir_name in pairs(sources) do
 	sync {
 		default.rsync,
-		source = source,
-		target = "/home/joseph/Dropbox/Backup",
+		source = full_path,
+		target = "/home/joseph/Dropbox/Backup/" .. dir_name,
 		delay  = 5, -- aggregate events every 5 seconds
 		delete = true, -- --delete: this tells rsync to delete extraneous files from the receiving side (ones that aren't on the sending side), but only for the directories that are being synchronized.
 		rsync  = {
@@ -30,7 +31,6 @@ for i, source in ipairs(sources) do
 			acls          = true, -- -A, --acls: this option causes rsync to update the destination ACLs to be the same as the source ACLs.
 			archive       = true, -- -a, --archive: this is equivalent to -rlptgoD. It is a quick way of saying you want recursion and want to preserve almost everything (with -H being a notable omission).
 			checksum      = true, -- -c, --checksum: this changes the way rsync checks if the files have been changed and are in need of a transfer.
-			
 			executability = true, -- -E, --executability: this option causes rsync to preserve the executability (or non-executability) of regular files when --perms is not enabled.
 			group         = true, -- -g, --group: this option causes rsync to set the group of the destination file to be the same as the source file.
 			hard_links    = true, -- -H, --hard-links: this tells rsync to look for hard-linked files in the transfer and link together the corresponding files on the receiving side.
@@ -41,7 +41,7 @@ for i, source in ipairs(sources) do
 			times         = true, -- -t, --times: this tells rsync to transfer modification times along with the files and update them on the remote system.
 			verbose       = true, -- -v, --verbose: this option increases the amount of information the daemon logs during its startup phase.
 			xattrs        = true, -- -X, --xattrs: this option causes rsync to update the remote extended attributes to be the same as the local ones.
-			_extra = {
+			_extra        = {
 				"-i",                -- -i, --itemize-changes: requests a simple itemized list of the changes that are being made to each file, including attribute changes.
 				"--log-file=${PROJECT_LOG_FILE}", --log-file=FILE: this option tells the rsync daemon to use the given log-file name instead of using the lqlog filerq setting in the config file.
 				"--progress"         -- --progress: this option tells rsync to print information showing the progress of the transfer.
