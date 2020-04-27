@@ -417,8 +417,7 @@ start_dropbox_synchronizer_daemon() {
 	
 	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
 	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_LOG_FILE},'"${PROJECT_LSYNCD_LOG_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_LOG_RSYNC_FILE},'"${PROJECT_LSYNCD_LOG_RSYNC_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_LOG_PID_FILE},'"${PROJECT_LSYNCD_LOG_PID_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_LOG_STATUS_FILE},'"${PROJECT_LSYNCD_LOG_STATUS_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_DIR},'"${PROJECT_DIR}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}") \
@@ -427,8 +426,7 @@ start_dropbox_synchronizer_daemon() {
 	echo -status "${?}" "${error}"
 	
 	echo -ne "  erase the existing log files of the task..."
-	error=$((truncate -s 0 "${PROJECT_LSYNCD_LOG_FILE}" && \
-		truncate -s 0 "${PROJECT_LSYNCD_LOG_RSYNC_FILE}" && \
+	error=$((truncate -s 0 "${PROJECT_LOG_FILE}" && \
 		truncate -s 0 "${PROJECT_LSYNCD_LOG_PID_FILE}" && \
 		truncate -s 0 "${PROJECT_LSYNCD_LOG_STATUS_FILE}") \
 		2>&1 1>/dev/null \

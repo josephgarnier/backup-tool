@@ -5,7 +5,7 @@
 -- LICENSE file in the root directory of this source tree.
 
 settings {
-	logfile         = "${PROJECT_LSYNCD_LOG_FILE}",
+	logfile         = "${PROJECT_LOG_FILE}",
 	pidfile         = "${PROJECT_LSYNCD_LOG_PID_FILE}",
 	nodaemon        = true,
 	statusFile      = "${PROJECT_LSYNCD_LOG_STATUS_FILE}",
@@ -43,7 +43,7 @@ for i, source in ipairs(sources) do
 			xattrs        = true, -- -X, --xattrs: this option causes rsync to update the remote extended attributes to be the same as the local ones.
 			_extra = {
 				"-i",                -- -i, --itemize-changes: requests a simple itemized list of the changes that are being made to each file, including attribute changes.
-				"--log-file=${PROJECT_LSYNCD_LOG_RSYNC_FILE}", --log-file=FILE: this option tells the rsync daemon to use the given log-file name instead of using the lqlog filerq setting in the config file.
+				"--log-file=${PROJECT_LOG_FILE}", --log-file=FILE: this option tells the rsync daemon to use the given log-file name instead of using the lqlog filerq setting in the config file.
 				"--progress"         -- --progress: this option tells rsync to print information showing the progress of the transfer.
 			}
 		}
