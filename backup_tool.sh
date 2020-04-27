@@ -218,7 +218,6 @@ main() {
 					break
 					;;
 				"Quit")
-					# Clean workspace.
 					echo -e ""
 					echo -e "Clean \"temp/\" directory."
 					rm -f -r "${PROJECT_TEMP_DIR}/"*
