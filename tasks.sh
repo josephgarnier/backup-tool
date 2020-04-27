@@ -342,6 +342,7 @@ incremental_save_to_dropbox() {
 		sleep 1
 	fi
 	
+	# Save with rsync command
 	local -r -a SRC_DIRS=( \
 		"/home/joseph/Documents/Documents_Administratifs" \
 		"/home/joseph/Documents/Graphisme_et_Modelisation" \
@@ -404,13 +405,20 @@ start_dropbox_synchronizer_daemon() {
 		echo -e "lsyncd command not found!"
 		exit -1
 	fi
-
+	# Looking for Dropbox
+	which dropbox > /dev/null
+	if [[ "${?}" -ne 0 ]]; then
+		echo -e "dropbox command not found!"
+		exit -1
+	fi
+	
 	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
 	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_LOG_FILE},'"${PROJECT_LSYNCD_LOG_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_LOG_RSYNC_FILE},'"${PROJECT_LSYNCD_LOG_RSYNC_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_LOG_PID_FILE},'"${PROJECT_LSYNCD_LOG_PID_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_LOG_STATUS_FILE},'"${PROJECT_LSYNCD_LOG_STATUS_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}") \
+		sed -i 's,${PROJECT_LSYNCD_LOG_STATUS_FILE},'"${PROJECT_LSYNCD_LOG_STATUS_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_DIR},'"${PROJECT_DIR}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}") \
 		2>&1 1>/dev/null \
 	)
 	echo -status "${?}" "${error}"
