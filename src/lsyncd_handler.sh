@@ -1,10 +1,12 @@
 #!/bin/bash
 
-source log.sh
+declare DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+source "$DIR/log.sh"
 
 readonly OPTIONS="${@}"
 
-log_info "Start lsyncd handler for source \"${@: -2:1}\""
+log_info "Start lsyncd handler for source \""${@: -2:1}"\""
 
 # Start Dropbox if not started
 if [[ "$(dropbox status)" != "Up to date" ]]; then
@@ -39,7 +41,7 @@ status="${?}"
 		
 		log_info "Synchronized!"
 	else
-		log_info "Fail to synchronize! Error code is ${status}."
+		log_info "Fail to synchronize! Error code is "${status}"."
 	fi
 ) 1>/dev/null 2>&1 </dev/null
 

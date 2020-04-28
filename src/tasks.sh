@@ -6,8 +6,10 @@
 
 #!/bin/bash
 
-source log.sh
-source utility.sh
+declare DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+source "$DIR/log.sh"
+source "$DIR/utility.sh"
 
 #######################################
 # Backup the PPA source list
@@ -31,14 +33,14 @@ ppa_source_list() {
 	echo -status "${?}" "${error}"
 
 	echo -ne "  save all trusted keys in sources.keys file of temp directory..."
-	error=$(script -e -c "apt-key exportall > \"${PROJECT_TEMP_DIR}/sources.keys\"" /dev/null 2>&1 1>/dev/null)
+	error=$(script -e -c "apt-key exportall > \""${PROJECT_TEMP_DIR}"/sources.keys\"" /dev/null 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with output directory content..."
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	echo -ne "  move the generate \""${OUTPUT_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
 	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -70,7 +72,7 @@ gitkraken() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	echo -ne "  move the generate \""${OUTPUT_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
 	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -98,7 +100,7 @@ texstudio() {
 	error=$(cp -T --preserve=all "/home/joseph/.config/texstudio/texstudio.ini" "${OUTPUT_FILE}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move profile file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
+	echo -ne "  move profile file \""${OUTPUT_FILE_NAME}"\" to final destination \""${DEST_DIR}"\"..."
 	error=$(mv -f "${OUTPUT_FILE}" "${DEST_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -134,11 +136,11 @@ mendeley() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_CONFIG_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_CONFIG_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
-	error=$(mv -f ${OUTPUT_CONFIG_ZIP_FILE} ${DEST_CONFIG_ZIP_FILE} 2>&1 1>/dev/null)
+	echo -ne "  move the generate \""${OUTPUT_CONFIG_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	error=$(mv -f "${OUTPUT_CONFIG_ZIP_FILE}" "${DEST_CONFIG_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
-	assert_eq "$(ls -A ${PROJECT_TEMP_DIR})" "" "\"/temp\" directory is not empty!"
+	assert_eq "$(ls -A "${PROJECT_TEMP_DIR}")" "" "\"/temp\" directory is not empty!"
 	
 	# Data files
 	echo -ne "  copy data files to temp directory..."
@@ -149,8 +151,8 @@ mendeley() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_DATA_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_DATA_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
-	error=$(mv -f ${OUTPUT_DATA_ZIP_FILE} ${DEST_DATA_ZIP_FILE} 2>&1 1>/dev/null)
+	echo -ne "  move the generate \""${OUTPUT_DATA_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	error=$(mv -f "${OUTPUT_DATA_ZIP_FILE}" "${DEST_DATA_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
 	echo -e "Done!"
@@ -181,7 +183,7 @@ recoll() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	echo -ne "  move the generate \""${OUTPUT_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
 	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -217,11 +219,11 @@ visual_studio_code() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_EXTENSIONS_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_EXTENSIONS_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
-	error=$(mv -f ${OUTPUT_EXTENSIONS_ZIP_FILE} ${DEST_EXTENSIONS_ZIP_FILE} 2>&1 1>/dev/null)
+	echo -ne "  move the generate \""${OUTPUT_EXTENSIONS_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	error=$(mv -f "${OUTPUT_EXTENSIONS_ZIP_FILE}" "${DEST_EXTENSIONS_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
-	assert_eq "$(ls -A ${PROJECT_TEMP_DIR})" "" "\"/temp\" directory is not empty!"
+	assert_eq "$(ls -A "${PROJECT_TEMP_DIR}")" "" "\"/temp\" directory is not empty!"
 	
 	# User files
 	echo -ne "  copy user files to temp directory..."
@@ -232,8 +234,8 @@ visual_studio_code() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_USER_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_USER_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
-	error=$(mv -f ${OUTPUT_USER_ZIP_FILE} ${DEST_USER_ZIP_FILE} 2>&1 1>/dev/null)
+	echo -ne "  move the generate \""${OUTPUT_USER_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	error=$(mv -f "${OUTPUT_USER_ZIP_FILE}" "${DEST_USER_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
 	echo -e "Done!"
@@ -256,11 +258,11 @@ linux_settings() {
 	local -r OUTPUT_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
 	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
 
-	echo -ne "  save all linux settings in \"${OUTPUT_FILE_NAME}\" in temp directory..."
-	error=$(script -e -c "dconf dump / > \"${OUTPUT_FILE}\"" /dev/null 2>&1 1>/dev/null)
+	echo -ne "  save all linux settings in \""${OUTPUT_FILE_NAME}"\" in temp directory..."
+	error=$(script -e -c "dconf dump / > \""${OUTPUT_FILE}"\"" /dev/null 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move setting file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
+	echo -ne "  move setting file \""${OUTPUT_FILE_NAME}"\" to final destination \""${DEST_DIR}"\"..."
 	error=$(mv -f "${OUTPUT_FILE}" "${DEST_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
@@ -299,9 +301,9 @@ incremental_save_to_remote_disk() {
 	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s"
 	
 	echo -e "============================="
-	for path in "${!SRC_DIRS[@]}"; do
-		echo -e "  save content of \"${SRC_DIRS[$path]}\" to \"${DEST_DIR}\" directory..."
-		rsync ${OPTIONS} "${SRC_DIRS[$path]}" "${DEST_DIR}"
+	for path in "${SRC_DIRS[@]}"; do
+		echo -e "  save content of \""${path}"\" to \""${DEST_DIR}"\" directory..."
+		rsync ${OPTIONS} "${path}" "${DEST_DIR}"
 		echo -status "${?}" "${?}"
 		echo -e "-----------------------------"
 	done
@@ -359,9 +361,9 @@ incremental_save_to_dropbox() {
 	local -r OPTIONS="--archive --hard-links --acls --xattrs --verbose --progress --delete --checksum --itemize-changes --protect-args"
 	
 	echo -e "============================="
-	for path in "${!SRC_DIRS[@]}"; do
-		echo -e "  save content of \"${SRC_DIRS[$path]}\" to \"${DROPBOX_DEST_DIR}\" directory..."
-		rsync ${OPTIONS} "${SRC_DIRS[$path]}" "${DROPBOX_DEST_DIR}"
+	for path in "${SRC_DIRS[@]}"; do
+		echo -e "  save content of \""${path}"\" to \""${DROPBOX_DEST_DIR}"\" directory..."
+		rsync ${OPTIONS} "${path}" "${DROPBOX_DEST_DIR}"
 		echo -status "${?}" "${?}"
 		echo -e "-----------------------------"
 	done
@@ -420,7 +422,7 @@ start_dropbox_synchronizer_daemon() {
 		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_STATUS_FILE},'"${PROJECT_LSYNCD_STATUS_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_DIR},'"${PROJECT_DIR}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}") \
+		sed -i 's,${PROJECT_SRC_DIR},'"${PROJECT_SRC_DIR}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}") \
 		2>&1 1>/dev/null \
 	)
 	echo -status "${?}" "${error}"

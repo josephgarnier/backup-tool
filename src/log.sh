@@ -6,7 +6,9 @@
 
 #!/bin/bash
 
-source global.sh
+declare DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+source "$DIR/global.sh"
 
 readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
 
@@ -21,7 +23,7 @@ readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
 #######################################
 log() {
 	local -r text="${1}"
-	echo -e "$(date +"%Y/%m/%d %H:%M:%S") [$$] ${text}" |& tee -a "${PROJECT_LOG_FILE}"
+	echo -e ""$(date +"%Y/%m/%d %H:%M:%S")" [$$] "${text}"" |& tee -a "${PROJECT_LOG_FILE}"
 }
 
 #######################################

@@ -6,7 +6,9 @@
 
 #!/bin/bash
 
-source tasks.sh
+declare DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+source "$DIR/tasks.sh"
 
 #######################################
 # Pre processing of a task.
@@ -18,7 +20,7 @@ source tasks.sh
 #   None.
 #######################################
 pre_task() {
-	if [[ -n "$(ls -A ${PROJECT_TEMP_DIR})" ]]; then
+	if [[ -n "$(ls -A "${PROJECT_TEMP_DIR}")" ]]; then
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
 	fi
@@ -35,7 +37,7 @@ pre_task() {
 #   None.
 #######################################
 post_task() {
-	if [[ -n "$(ls -A ${PROJECT_TEMP_DIR})" ]]; then
+	if [[ -n "$(ls -A "${PROJECT_TEMP_DIR}")" ]]; then
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
 	fi
@@ -132,11 +134,12 @@ main() {
 
 	for directory in "${PROJECT_DIRS[@]}"; do
 		if [[ ! -d "${directory}" ]]; then
-			echo -error "ERROR: missing folder \"$(basename ${directory})/\"!"
+			echo -error "ERROR: missing folder \"$(basename "${directory}")/\"!"
 			exit -1
 		fi
 	done
-	if [[ $(find "${PROJECT_DIR}" -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*" | wc -l) != "${#PROJECT_DIRS[@]}" ]]; then
+
+	if [[ "$(find "${PROJECT_DIR}" -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*" | wc -l)" != "${#PROJECT_DIRS[@]}" ]]; then
 		echo -error "ERROR: too many folders in this project!"
 		exit -1
 	fi

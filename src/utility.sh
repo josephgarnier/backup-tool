@@ -33,9 +33,9 @@ echo() {
 			;;
 		"-status")
 			if [[ "${code}" -eq 0 ]]; then
-				echo -e " ${COLORS[GREEN]}[success]${COLORS[RESET]}"
+				echo -e " "${COLORS[GREEN]}"[success]"${COLORS[RESET]}""
 			else
-				echo -e " ${COLORS[RED]}[fail]: ${error}${COLORS[RESET]}"
+				echo -e " "${COLORS[RED]}"[fail]: "${error}${COLORS[RESET]}""
 			fi
 			;;
 		*)
@@ -72,8 +72,8 @@ assert_eq() {
 		# An error occured, retrieved the line and the name of the script where
 		# it happend
 		set $(caller)
-		echo -e "Assertion failed: \"${expected} == ${actual}\" :: ${msg}"
+		echo -e "Assertion failed: \""${expected}" == "${actual}"\" :: "${msg}""
 		echo -e "File \"${0}\", line ${1}" 2>&1
-		exit ${ASSERT_FAILED}
+		exit "${ASSERT_FAILED}"
 	fi
 }
