@@ -416,29 +416,29 @@ start_dropbox_synchronizer_daemon() {
 	fi
 	
 	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
-	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_LOG_PID_FILE},'"${PROJECT_LSYNCD_LOG_PID_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_LOG_STATUS_FILE},'"${PROJECT_LSYNCD_LOG_STATUS_FILE}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_DIR},'"${PROJECT_DIR}"',' "${PROJECT_LSYNCD_TMP_CONFIG_FILE}") \
+	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_STATUS_FILE},'"${PROJECT_LSYNCD_STATUS_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_DIR},'"${PROJECT_DIR}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}") \
 		2>&1 1>/dev/null \
 	)
 	echo -status "${?}" "${error}"
 	
 	echo -ne "  erase the existing log files of the task..."
 	error=$((truncate -s 0 "${PROJECT_LOG_FILE}" && \
-		truncate -s 0 "${PROJECT_LSYNCD_LOG_PID_FILE}" && \
-		truncate -s 0 "${PROJECT_LSYNCD_LOG_STATUS_FILE}") \
+		truncate -s 0 "${PROJECT_LSYNCD_PID_FILE}" && \
+		truncate -s 0 "${PROJECT_LSYNCD_STATUS_FILE}") \
 		2>&1 1>/dev/null \
 	)
 	echo -status "${?}" "${error}"
 	
 	echo -e "  start the lsyncd process."
-	lsyncd -log all "${PROJECT_LSYNCD_TMP_CONFIG_FILE}"
+	lsyncd -log all "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}"
 	echo -e "  the lsyncd process is stopped."
 
 	echo -ne "  remove the config file from \"temp/\" directory..."
-	error=$(rm -f "${PROJECT_LSYNCD_TMP_CONFIG_FILE}" 2>&1 1>/dev/null)
+	error=$(rm -f "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
 	echo -e "Done!"

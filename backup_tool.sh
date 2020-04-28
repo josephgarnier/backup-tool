@@ -121,8 +121,10 @@ main() {
 	# Global variables declaration.
 	echo -e "Initialize global variables."
 	readonly -a PROJECT_DIRS=( \
-		"${PROJECT_TEMP_DIR}" \
+		"${PROJECT_CONFIG_DIR}" \
 		"${PROJECT_LOG_DIR}" \
+		"${PROJECT_SRC_DIR}" \
+		"${PROJECT_TEMP_DIR}" \
 	)
 
 	# Check project structure.
