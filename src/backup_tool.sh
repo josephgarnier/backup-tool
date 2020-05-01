@@ -127,6 +127,7 @@ main() {
 		"${PROJECT_LOG_DIR}" \
 		"${PROJECT_SRC_DIR}" \
 		"${PROJECT_TEMP_DIR}" \
+		"${PROJECT_VAR_DIR}" \
 	)
 
 	# Check project structure.

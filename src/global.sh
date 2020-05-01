@@ -17,6 +17,8 @@ if [[ ! -v BACKUP_TOOL_GLOBAL ]]; then
 	readonly PROJECT_TEMP_DIR="${PROJECT_DIR}/temp"
 	readonly PROJECT_VAR_DIR="${PROJECT_DIR}/var"
 
+	readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
+	readonly PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE=""${PROJECT_VAR_DIR}"/process_executing.data"
 	readonly PROJECT_LSYNCD_PID_FILE="${PROJECT_VAR_DIR}/lsyncd.pid"
 	readonly PROJECT_LSYNCD_STATUS_FILE="${PROJECT_LOG_DIR}/lsyncd.status"
 	readonly PROJECT_LSYNCD_CONFIG_FILE="${PROJECT_CONFIG_DIR}/lsyncd.conf.in"
