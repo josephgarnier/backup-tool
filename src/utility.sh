@@ -72,8 +72,8 @@ assert_eq() {
 		# An error occured, retrieved the line and the name of the script where
 		# it happend
 		set $(caller)
-		echo -e "Assertion failed: \""${expected}" == "${actual}"\" :: "${msg}""
-		echo -e "File \"${0}\", line ${1}" 2>&1
+		echo -e "Assertion failed: \""${expected}" == "${actual}"\" :: "${msg}"" 1>&2
+		echo -e "File \"${0}\", line ${1}" 1>&2
 		exit "${ASSERT_FAILED}"
 	fi
 }
