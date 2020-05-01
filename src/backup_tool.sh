@@ -7,8 +7,8 @@
 #!/bin/bash
 
 declare DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-source "$DIR/tasks.sh"
+if [[ ! -d "${DIR}" ]]; then DIR="${PWD}"; fi
+source "${DIR}/tasks.sh"
 
 #######################################
 # Pre processing of a task.

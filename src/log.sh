@@ -7,10 +7,8 @@
 #!/bin/bash
 
 declare DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-source "$DIR/global.sh"
-
-readonly PROJECT_LOG_FILE="${PROJECT_LOG_DIR}/backup_tool.log"
+if [[ ! -d "${DIR}" ]]; then DIR="${PWD}"; fi
+source "${DIR}/global.sh"
 
 #######################################
 # Log command.

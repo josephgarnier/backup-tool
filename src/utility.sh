@@ -29,7 +29,7 @@ echo() {
 
 	case "${option}" in
 		"-error")
-			echo -e "\e[31m${code}\e[0m"
+			echo -e "\e[31m"${code}"\e[0m"
 			;;
 		"-status")
 			if [[ "${code}" -eq 0 ]]; then
@@ -63,7 +63,7 @@ assert_eq() {
 	local msg
 
 	if [[ "$#" -ge 3 ]]; then
-		msg="$3"
+		msg="${3}"
 	fi
 
 	if [[ "${expected}" == "${actual}" ]]; then

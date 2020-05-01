@@ -7,9 +7,9 @@
 #!/bin/bash
 
 declare DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-source "$DIR/log.sh"
-source "$DIR/utility.sh"
+if [[ ! -d "${DIR}" ]]; then DIR="${PWD}"; fi
+source "${DIR}/log.sh"
+source "${DIR}/utility.sh"
 
 #######################################
 # Backup the PPA source list
