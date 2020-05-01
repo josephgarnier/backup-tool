@@ -427,14 +427,16 @@ start_dropbox_synchronizer_daemon() {
 	)
 	echo -status "${?}" "${error}"
 	
-	echo -ne "  erase the existing log files of the task..."
+	echo -ne "  erase the existing log files of the task and var files to default value..."
 	error=$((truncate -s 0 "${PROJECT_LOG_FILE}" && \
+		truncate -s 0 "${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}" && \
 		truncate -s 0 "${PROJECT_LSYNCD_PID_FILE}" && \
-		truncate -s 0 "${PROJECT_LSYNCD_STATUS_FILE}") \
+		truncate -s 0 "${PROJECT_LSYNCD_STATUS_FILE}" && \
+		echo -ne "0" >"${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}") \
 		2>&1 1>/dev/null \
 	)
 	echo -status "${?}" "${error}"
-	
+
 	echo -e "  start the lsyncd process."
 	lsyncd -log all "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}"
 	echo -e "  the lsyncd process is stopped."
