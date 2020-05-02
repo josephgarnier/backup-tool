@@ -11,28 +11,36 @@ if [[ ! -d "${DIR}" ]]; then DIR="${PWD}"; fi
 source "${DIR}/global.sh"
 
 #######################################
-# Log command.
-# Globals:
-#   log the text passed in parameter.
-# Arguments:
-#   text to log.
-# Returns:
-#   None.
+# PRIVATE
 #######################################
-log() {
+_log() {
 	local -r text="${1}"
-	echo -e ""$(date +"%Y/%m/%d %H:%M:%S")" [$$] "${text}"" |& tee -a "${PROJECT_LOG_FILE}"
+	echo -e "$(date +"%Y/%m/%d %H:%M:%S") [$$] ${text}" |& tee -a "${PROJECT_LOG_FILE}"
 }
 
 #######################################
-# Log text with info status.
+# PUBLIC
+#######################################
+
+#######################################
+# Log text with info status. Inspired from https://github.com/fredpalmer/log4bash/blob/master/log4bash.sh.
 # Globals:
-#   see log command.
+#   PROJECT_LOG_FILE.
 # Arguments:
-#   text to log.
+#   <message>: text to log.
+# Outputs:
+#   None.
 # Returns:
 #   None.
+# Exits:
+#   99: if arguments are missing.
 #######################################
 log_info() {
-	log "${@}"
+	local -r -i PARAM_FAILED=99
+	if (( $# < 1 )); then
+		echo -e "usage: log_info <message>" 1>&2
+		exit ${PARAM_FAILED}
+	fi
+
+	_log "${1}"
 }
