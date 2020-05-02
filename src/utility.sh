@@ -23,7 +23,7 @@ readonly -A COLORS=( \
 #   -error: display a message with red color.
 #   -status <error_code> <error_message>: display a message either with green color if success or red if fail.
 # Outputs:
-#   Write message to STDOUT
+#   Write message to STDOUT.
 # Returns:
 #   None.
 # Exits:
@@ -52,7 +52,7 @@ echo() {
 }
 
 #######################################
-# Takes two strings and checks whether they are the same based on the character strings. Inspired from https://github.com/torokmark/assert.sh
+# Takes two strings and checks whether they are the same based on the character strings. Inspired from https://github.com/torokmark/assert.sh.
 # Globals:
 #   None.
 # Arguments:
@@ -60,7 +60,7 @@ echo() {
 #   <actual>: current string that should be the same as expected.
 #   <message>: message to display if strings are not equals.
 # Outputs:
-#   Write <message> to STDERR
+#   Write <message> to STDERR.
 # Returns:
 #   0: if strings are equals.
 # Exits:
@@ -92,15 +92,15 @@ assert_eq() {
 }
 
 #######################################
-# Takes two integer and checks whether the left is less than the right one. Inspired from https://github.com/torokmark/assert.sh
+# Takes two integer and checks whether the left is less than the right one. Inspired from https://github.com/torokmark/assert.sh.
 # Globals:
 #   None.
 # Arguments:
-#   <left>: left integer that should be less than the right one
+#   <left>: left integer that should be less than the right one.
 #   <right>: right integer.
 #   <message>: message to display if the left integer is not less than the right one.
 # Outputs:
-#   Write <message> to STDERR
+#   Write <message> to STDERR.
 # Returns:
 #   0: if the left is less than right.
 # Exits:
@@ -132,7 +132,7 @@ assert_lt() {
 }
 
 #######################################
-# Takes two integer and checks whether the left is greater than or equal to the right one. Inspired from https://github.com/torokmark/assert.sh
+# Takes two integer and checks whether the left is greater than or equal to the right one. Inspired from https://github.com/torokmark/assert.sh.
 # Globals:
 #   None.
 # Arguments:
@@ -140,7 +140,7 @@ assert_lt() {
 #   <right>: right integer.
 #   <message>: message to display if the left integer is not greater than or equal to the right one.
 # Outputs:
-#   Write <message> to STDERR
+#   Write <message> to STDERR.
 # Returns:
 #   0: if the left is greater than or equal to the right.
 # Exits:
@@ -162,8 +162,7 @@ assert_ge() {
 	if (( ${left} >= ${right} )); then
 		return 0
 	else
-		# An error occured, retrieved the line and the name of the script where
-		# it happend
+		# An error occured, retrieved the line and the name of the script where it happend
 		set $(caller)
 		echo -e "Assertion failed: \""${left}" >= "${right}"\" :: "${message}"" 1>&2
 		echo -e "File \"${0}\", line ${1}" 1>&2
