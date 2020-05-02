@@ -10,13 +10,14 @@ settings {
 	nodaemon        = true,
 	statusFile      = "${PROJECT_LSYNCD_STATUS_FILE}",
 	statusInterval  = 20, -- update status every 20 seconds
-	maxProcesses    = 1
+	maxProcesses    = 7
 }
 
 -- key is full path directory, value is directory name
 local sources = {
 	["/home/joseph/Documents/Test"]   = "Test",
-	["/home/joseph/Documents/Test_2"] = "Test_2"
+	["/home/joseph/Documents/Test_2"] = "Test_2",
+	["/home/joseph/Documents/Test_3"] = "Test_3"
 }
 
 for full_path, dir_name in pairs(sources) do
