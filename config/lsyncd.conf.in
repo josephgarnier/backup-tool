@@ -7,7 +7,7 @@
 settings {
 	logfile         = "${PROJECT_LOG_FILE}",
 	pidfile         = "${PROJECT_LSYNCD_PID_FILE}",
-	nodaemon        = true,
+	nodaemon        = false,
 	statusFile      = "${PROJECT_LSYNCD_STATUS_FILE}",
 	statusInterval  = 20, -- update status every 20 seconds
 	maxProcesses    = 7

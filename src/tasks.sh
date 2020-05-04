@@ -473,8 +473,13 @@ start_dropbox_synchronizer_daemon() {
 		echo -e "dropbox command not found!"
 		exit -1
 	fi
+	# Test for lsyncd deamon is already running
+	if [[ -f "${PROJECT_LSYNCD_PID_FILE}" ]]; then
+		echo -e "lsyncd deamon already running!"
+		exit -1
+	fi
 	
-	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
+	echo -ne "  copy lsyncd config file template to \"config/\" directory and fill it..."
 	local error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
@@ -496,19 +501,16 @@ start_dropbox_synchronizer_daemon() {
 
 	echo -e "  start the lsyncd process."
 	lsyncd -log all "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}"
-	echo -e "  the lsyncd process is stopped."
+	echo -e "  the lsyncd process is started."
 
-	echo -ne "  remove the config file from \"temp/\" directory..."
-	error=$(rm -f "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" 2>&1 1>/dev/null)
-	echo -status "${?}" "${error}"
-	
 	echo -e "Done!"
 }
 
 #######################################
 # Stop Dropbox synchronizer daemon
 # Globals:
-#   None.
+#   PROJECT_LSYNCD_PID_FILE.
+#   PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE.
 # Arguments:
 #   None.
 # Outputs:
@@ -517,10 +519,25 @@ start_dropbox_synchronizer_daemon() {
 # Returns:
 #   None.
 # Exits:
-#   None.
+#   -1: if lsyncd deamon is not running.
 #######################################
 stop_dropbox_synchronizer_daemon() {
 	echo -e "Stop Dropbox synchronizer daemon."
+	
+	# Test for lsyncd deamon is running
+	if [[ ! -f "${PROJECT_LSYNCD_PID_FILE}" ]]; then
+		echo -e "lsyncd deamon is not running!"
+		exit -1
+	fi
+
+	declare -r -i lsyncd_pid="$(cat ${PROJECT_LSYNCD_PID_FILE})"
+	echo -ne "  stop the lsyncd process ${lsyncd_pid}."
+	local error=$(start-stop-daemon --verbose --stop --pidfile "${PROJECT_LSYNCD_PID_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	echo -ne "  remove the config file from \"config/\" directory..."
+	error=$(rm -f "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
 	
 	echo -e "Done!"
 }
