@@ -36,13 +36,13 @@ echo() {
 
 	case "${option}" in
 		"-error")
-			echo -e "\e[31m${error_code}\e[0m"
+			echo -e "\e[31m${error_code}\e[0m" 1>&2
 			;;
 		"-status")
 			if [[ "${error_code}" -eq 0 ]]; then
 				echo -e " ${COLORS[GREEN]}[success]${COLORS[RESET]}"
 			else
-				echo -e " ${COLORS[RED]}[fail]: ${error_message}${COLORS[RESET]}"
+				echo -e " ${COLORS[RED]}[fail]: ${error_message}${COLORS[RESET]}" 1>&2
 			fi
 			;;
 		*)

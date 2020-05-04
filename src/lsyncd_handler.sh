@@ -60,7 +60,7 @@ declare -r -i rsync_status=${?}
 			sleep 1
 		done
 		unlock "${LOCKFILE_DROPBOX_FILENAME}" 201
-		log_info "Dropbox is shutown and has status $(dropbox status)."
+		log_info "Dropbox is shutown and has status \"$(dropbox status)\"."
 	fi
 	
 	# Decrement the number of processes

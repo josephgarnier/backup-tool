@@ -16,7 +16,7 @@ source "${DIR}/global.sh"
 _trap_add() {
 	local -r command="${1}"
 	local -r signal="${2}"
-	local handler="$(trap -p ${signal})"
+	local handler="$(trap -p "${signal}")"
 	if [[ -n "${handler}" ]]; then
 		handler="${handler/trap -- \'/}"    # strip `trap '...' SIGNAL` -> ...
 		handler="${handler%\'*}"            # 

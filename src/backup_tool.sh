@@ -13,11 +13,16 @@ source "${DIR}/tasks.sh"
 #######################################
 # Pre processing of a task.
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
 #   None.
+# Exits:
+#   -1: if temp directory in not empty.
 #######################################
 pre_task() {
 	if [[ -n "$(ls -A "${PROJECT_TEMP_DIR}")" ]]; then
@@ -30,11 +35,16 @@ pre_task() {
 #######################################
 # Post processing of a task.
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
 #   None.
+# Exits:
+#   -1: if temp directory in not empty.
 #######################################
 post_task() {
 	if [[ -n "$(ls -A "${PROJECT_TEMP_DIR}")" ]]; then
@@ -45,12 +55,17 @@ post_task() {
 }
 
 #######################################
-# Submenu to selection application to backup.
+# Submenu to select application to backup.
 # Globals:
 #   None.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 submenu_application_selection() {
@@ -115,6 +130,24 @@ submenu_application_selection() {
 	done
 }
 
+#######################################
+# The Main function.
+# Globals:
+#   PROJECT_CONFIG_DIR.
+#   PROJECT_LOG_DIR.
+#   PROJECT_SRC_DIR.
+#   PROJECT_TEMP_DIR.
+#   PROJECT_VAR_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   -1: if a project folder is missing or if they are too many folder.
+#######################################
 main() {
 	echo -e "============================================="
 	echo -e "               Backup Tool                   "
@@ -240,4 +273,4 @@ main() {
 }
 
 main "$@"
-exit "${?}"
+exit ${?}

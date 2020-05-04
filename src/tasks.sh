@@ -14,10 +14,16 @@ source "${DIR}/utility.sh"
 #######################################
 # Backup the PPA source list
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR.
+#   DEST_DIR.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 ppa_source_list() {
@@ -29,7 +35,7 @@ ppa_source_list() {
 	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
 
 	echo -ne "  copy source list to temp directory..."
-	error=$(cp --parents -a "/etc/apt/sources.list.d" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	local error=$(cp --parents -a "/etc/apt/sources.list.d" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  save all trusted keys in sources.keys file of temp directory..."
@@ -40,7 +46,7 @@ ppa_source_list() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \""${OUTPUT_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -50,10 +56,15 @@ ppa_source_list() {
 #######################################
 # Backup GitKraken
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 gitkraken() {
@@ -65,14 +76,14 @@ gitkraken() {
 	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
 
 	echo -ne "  copy config files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.gitkraken" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	local error=$(cp --parents -a "/home/joseph/.gitkraken" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \""${OUTPUT_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -82,10 +93,15 @@ gitkraken() {
 #######################################
 # Backup TeXstudio
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 texstudio() {
@@ -97,10 +113,10 @@ texstudio() {
 	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
 
 	echo -ne "  copy profile file to temp directory..."
-	error=$(cp -T --preserve=all "/home/joseph/.config/texstudio/texstudio.ini" "${OUTPUT_FILE}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+	local error=$(cp -T --preserve=all "/home/joseph/.config/texstudio/texstudio.ini" "${OUTPUT_FILE}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move profile file \""${OUTPUT_FILE_NAME}"\" to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move profile file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_FILE}" "${DEST_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -110,10 +126,15 @@ texstudio() {
 #######################################
 # Backup Mendeley
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 mendeley() {
@@ -129,14 +150,14 @@ mendeley() {
 
 	# Config files
 	echo -ne "  copy config files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.config/Mendeley Ltd." "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	local error=$(cp --parents -a "/home/joseph/.config/Mendeley Ltd." "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_CONFIG_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \""${OUTPUT_CONFIG_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move the generate \"${OUTPUT_CONFIG_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_CONFIG_ZIP_FILE}" "${DEST_CONFIG_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -151,7 +172,7 @@ mendeley() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_DATA_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \""${OUTPUT_DATA_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move the generate \"${OUTPUT_DATA_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_DATA_ZIP_FILE}" "${DEST_DATA_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -161,10 +182,15 @@ mendeley() {
 #######################################
 # Backup Recoll
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 recoll() {
@@ -176,14 +202,14 @@ recoll() {
 	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
 
 	echo -ne "  copy data files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.recoll" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	local error=$(cp --parents -a "/home/joseph/.recoll" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \""${OUTPUT_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -193,10 +219,15 @@ recoll() {
 #######################################
 # Backup Visual Studio Code
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 visual_studio_code() {
@@ -212,14 +243,14 @@ visual_studio_code() {
 
 	# Extensions files
 	echo -ne "  copy extensions files to temp directory..."
-	error=$(cp --parents -a "/home/joseph/.vscode/extensions" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	local error=$(cp --parents -a "/home/joseph/.vscode/extensions" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with content of temp directory and clean it..."
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_EXTENSIONS_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \""${OUTPUT_EXTENSIONS_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move the generate \"${OUTPUT_EXTENSIONS_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_EXTENSIONS_ZIP_FILE}" "${DEST_EXTENSIONS_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -234,7 +265,7 @@ visual_studio_code() {
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_USER_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \""${OUTPUT_USER_ZIP_NAME}"\" file to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move the generate \"${OUTPUT_USER_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_USER_ZIP_FILE}" "${DEST_USER_ZIP_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 	
@@ -244,10 +275,15 @@ visual_studio_code() {
 #######################################
 # Backup Linux Settings
 # Globals:
-#   None.
+#   PROJECT_TEMP_DIR.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 linux_settings() {
@@ -258,11 +294,11 @@ linux_settings() {
 	local -r OUTPUT_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
 	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
 
-	echo -ne "  save all linux settings in \""${OUTPUT_FILE_NAME}"\" in temp directory..."
-	error=$(script -e -c "dconf dump / > \""${OUTPUT_FILE}"\"" /dev/null 2>&1 1>/dev/null)
+	echo -ne "  save all linux settings in \"${OUTPUT_FILE_NAME}\" in temp directory..."
+	local error=$(script -e -c "dconf dump / > \""${OUTPUT_FILE}"\"" /dev/null 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move setting file \""${OUTPUT_FILE_NAME}"\" to final destination \""${DEST_DIR}"\"..."
+	echo -ne "  move setting file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
 	error=$(mv -f "${OUTPUT_FILE}" "${DEST_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
@@ -275,15 +311,20 @@ linux_settings() {
 #   None.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
 #   None.
+# Exits:
+#   -1: if rsync command is not found.
 #######################################
 incremental_save_to_remote_disk() {
 	echo -e "Incremental save to remote disk."
 	
 	# Looking for rsync
-	which rsync > /dev/null
-	if [[ "${?}" -ne 0 ]]; then
+	which rsync 1>/dev/null
+	if (( ${?} != 0 )); then
 		echo -e "rsync command not found!"
 		exit -1
 	fi
@@ -302,7 +343,7 @@ incremental_save_to_remote_disk() {
 	
 	echo -e "============================="
 	for path in "${SRC_DIRS[@]}"; do
-		echo -e "  save content of \""${path}"\" to \""${DEST_DIR}"\" directory..."
+		echo -e "  save content of \"${path}\" to \"${DEST_DIR}\" directory..."
 		rsync ${OPTIONS} "${path}" "${DEST_DIR}"
 		echo -status "${?}" "${?}"
 		echo -e "-----------------------------"
@@ -317,27 +358,32 @@ incremental_save_to_remote_disk() {
 #   None.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
 #   None.
+# Exits:
+#   -1: if rsync or dropbox commands are not found.
 #######################################
 incremental_save_to_dropbox() {
 	echo -e "Incremental save to Dropbox."
 	
 	# Looking for rsync
-	which rsync > /dev/null
-	if [[ "${?}" -ne 0 ]]; then
+	which rsync 1>/dev/null
+	if (( ${?} != 0 )); then
 		echo -e "rsync command not found!"
 		exit -1
 	fi
 	# Looking for Dropbox
-	which dropbox > /dev/null
-	if [[ "${?}" -ne 0 ]]; then
+	which dropbox 1>/dev/null
+	if (( ${?} != 0 )); then
 		echo -e "dropbox command not found!"
 		exit -1
 	fi
 
 	# Start Dropbox if not started
-	if [[ "$(dropbox status)" != "Up to date" ]]; then
+	if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]; then
 		echo -e "  start Dropbox..."
 		dropbox start
 		while [[ "$(dropbox status)" != "Up to date" ]]; do
@@ -362,7 +408,7 @@ incremental_save_to_dropbox() {
 	
 	echo -e "============================="
 	for path in "${SRC_DIRS[@]}"; do
-		echo -e "  save content of \""${path}"\" to \""${DROPBOX_DEST_DIR}"\" directory..."
+		echo -e "  save content of \"${path}\" to \"${DROPBOX_DEST_DIR}\" directory..."
 		rsync ${OPTIONS} "${path}" "${DROPBOX_DEST_DIR}"
 		echo -status "${?}" "${?}"
 		echo -e "-----------------------------"
@@ -389,36 +435,47 @@ incremental_save_to_dropbox() {
 #######################################
 # Start Dropbox synchronizer daemon
 # Globals:
-#   None.
+#   PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE.
+#   PROJECT_LSYNCD_CONFIG_FILE.
+#   PROJECT_LOG_FILE.
+#   PROJECT_LSYNCD_PID_FILE.
+#   PROJECT_LSYNCD_STATUS_FILE.
+#   PROJECT_SRC_DIR.
+#   PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
 #   None.
+# Exits:
+#   -1: if rsync, lsyncd or dropbox commands are not found.
 #######################################
 start_dropbox_synchronizer_daemon() {
 	echo -e "Start Dropbox synchronizer daemon."
 	
 	#Looking for rsync
-	which rsync > /dev/null
-	if [[ "${?}" -ne 0 ]]; then
+	which rsync 1>/dev/null
+	if (( ${?} != 0 )); then
 		echo -e "rsync command not found!"
 		exit -1
 	fi
 	#Looking for lsyncd
-	which lsyncd > /dev/null
-	if [[ "${?}" -ne 0 ]]; then
+	which lsyncd 1>/dev/null
+	if (( ${?} != 0 )); then
 		echo -e "lsyncd command not found!"
 		exit -1
 	fi
 	# Looking for Dropbox
-	which dropbox > /dev/null
-	if [[ "${?}" -ne 0 ]]; then
+	which dropbox 1>/dev/null
+	if (( ${?} != 0 )); then
 		echo -e "dropbox command not found!"
 		exit -1
 	fi
 	
 	echo -ne "  copy lsyncd config file template to temp directory and fill it..."
-	error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
+	local error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_STATUS_FILE},'"${PROJECT_LSYNCD_STATUS_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
@@ -454,7 +511,12 @@ start_dropbox_synchronizer_daemon() {
 #   None.
 # Arguments:
 #   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
 # Returns:
+#   None.
+# Exits:
 #   None.
 #######################################
 stop_dropbox_synchronizer_daemon() {
