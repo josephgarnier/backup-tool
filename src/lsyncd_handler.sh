@@ -20,7 +20,7 @@ unlock "${LOCKFILE_DATASTREAM_FILENAME}" 200
 
 # Start Dropbox if not started
 lock -1 "${LOCKFILE_DROPBOX_FILENAME}" 201
-if [[ "$(dropbox status)" != "Up to date" ]]; then
+if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]; then
 	log_info "Start Dropbox..."
 	dropbox start
 	while [[ "$(dropbox status)" != "Up to date" ]]; do
