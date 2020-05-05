@@ -4,7 +4,6 @@ declare DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${DIR}" ]]; then DIR="${PWD}"; fi
 source "${DIR}/log.sh"
 source "${DIR}/mutex.sh"
-source "${DIR}/utility.sh"
 
 readonly OPTIONS="${@}"
 readonly LOCKFILE_DATASTREAM_FILENAME="lsyncd_datastream.lock"

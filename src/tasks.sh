@@ -325,7 +325,7 @@ incremental_save_to_remote_disk() {
 	# Looking for rsync
 	which rsync 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -e "rsync command not found!"
+		echo -error "ERROR: rsync command not found!"
 		exit -1
 	fi
 
@@ -372,13 +372,13 @@ incremental_save_to_dropbox() {
 	# Looking for rsync
 	which rsync 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -e "rsync command not found!"
+		echo -error "ERROR: rsync command not found!"
 		exit -1
 	fi
 	# Looking for Dropbox
 	which dropbox 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -e "dropbox command not found!"
+		echo -error "ERROR: dropbox command not found!"
 		exit -1
 	fi
 
@@ -458,24 +458,24 @@ start_dropbox_synchronizer_daemon() {
 	#Looking for rsync
 	which rsync 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -e "rsync command not found!"
+		echo -error "ERROR: rsync command not found!"
 		exit -1
 	fi
 	#Looking for lsyncd
 	which lsyncd 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -e "lsyncd command not found!"
+		echo -error "ERROR: lsyncd command not found!"
 		exit -1
 	fi
 	# Looking for Dropbox
 	which dropbox 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -e "dropbox command not found!"
+		echo -error "ERROR: dropbox command not found!"
 		exit -1
 	fi
 	# Test for lsyncd deamon is already running
 	if [[ -f "${PROJECT_LSYNCD_PID_FILE}" ]]; then
-		echo -e "lsyncd deamon already running!"
+		echo -error "ERROR: lsyncd deamon already running!"
 		exit -1
 	fi
 	
@@ -526,7 +526,7 @@ stop_dropbox_synchronizer_daemon() {
 	
 	# Test for lsyncd deamon is running
 	if [[ ! -f "${PROJECT_LSYNCD_PID_FILE}" ]]; then
-		echo -e "lsyncd deamon is not running!"
+		echo -error "ERROR: lsyncd deamon is not running!"
 		exit -1
 	fi
 

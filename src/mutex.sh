@@ -9,6 +9,7 @@
 declare DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${DIR}" ]]; then DIR="${PWD}"; fi
 source "${DIR}/global.sh"
+source "${DIR}/utility.sh"
 
 #######################################
 # PRIVATE
@@ -65,7 +66,7 @@ lock() {
 	local -r -i PARAM_FAILED=99
 	local -r -i LOCK_TIMEOUT=1
 	if (( $# < 3 )); then
-		echo -e "usage: lock <sleeptime> <lock_filename> <file_descriptor>" 1>&2
+		echo -error "ERROR: usage: lock <sleeptime> <lock_filename> <file_descriptor>" 1>&2
 		exit ${PARAM_FAILED}
 	fi
 
@@ -102,7 +103,7 @@ lock() {
 unlock() {
 	local -r -i PARAM_FAILED=99
 	if (( $# < 2 )); then
-		echo -e "usage: unlock <lock_filename> <file_descriptor>" 1>&2
+		echo -error "ERROR: usage: unlock <lock_filename> <file_descriptor>" 1>&2
 		exit ${PARAM_FAILED}
 	fi
 	
