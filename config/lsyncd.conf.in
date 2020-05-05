@@ -9,15 +9,18 @@ settings {
 	pidfile         = "${PROJECT_LSYNCD_PID_FILE}",
 	nodaemon        = false,
 	statusFile      = "${PROJECT_LSYNCD_STATUS_FILE}",
-	statusInterval  = 20, -- update status every 20 seconds
-	maxProcesses    = 7
+	statusInterval  = 3600, -- update status every 20 seconds
+	maxProcesses    = 6
 }
 
 -- key is full path directory, value is directory name
 local sources = {
-	["/home/joseph/Documents/Test"]   = "Test",
-	["/home/joseph/Documents/Test_2"] = "Test_2",
-	["/home/joseph/Documents/Test_3"] = "Test_3"
+	["/home/joseph/Documents/Graphisme_et_Modelisation"] = "Graphisme_et_Modelisation",
+	["/home/joseph/Documents/Livres"] = "Livres",
+	["/home/joseph/Documents/Reserve_Cyberdefense"] = "Reserve_Cyberdefense",
+	["/home/joseph/Documents/Scolarite"] = "Scolarite",
+	["/home/joseph/Documents/Sport"] = "Sport",
+	["/home/joseph/Documents/Travail"] = "Travail"
 }
 
 for full_path, dir_name in pairs(sources) do
@@ -25,7 +28,7 @@ for full_path, dir_name in pairs(sources) do
 		default.rsync,
 		source = full_path,
 		target = "/home/joseph/Dropbox/Backup/" .. dir_name,
-		delay  = 5, -- aggregate events every 5 seconds
+		delay  = 3600, -- aggregate events every 3600 seconds
 		delete = true, -- --delete: this tells rsync to delete extraneous files from the receiving side (ones that aren't on the sending side), but only for the directories that are being synchronized.
 		rsync  = {
 			binary        = "${PROJECT_SRC_DIR}/lsyncd_handler.sh",
