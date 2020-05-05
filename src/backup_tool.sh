@@ -131,7 +131,7 @@ submenu_application_selection() {
 }
 
 #######################################
-# The Main function.
+# The Main function. Use `backup_tools.sh onstartup` to start the task start_dropbox_synchronizer_daemon on startup 
 # Globals:
 #   PROJECT_CONFIG_DIR.
 #   PROJECT_LOG_DIR.
@@ -149,13 +149,26 @@ submenu_application_selection() {
 #   -1: if a project folder is missing or if they are too many folder.
 #######################################
 main() {
+	local -r COMMAND="${*:$OPTIND:1}" # optionnal, inspired from https://github.com/andreafabrizi/Dropbox-Uploader and https://github.com/jmcantrell/bashful/tree/master/bin
+	# local -r ARG1="${*:$OPTIND+1:1}" # not used
+	# local -r ARG2="${*:$OPTIND+2:1}" # not used
+	local -r -i NB_ARGS=${#-$OPTIND}
+
+	#CHECKING PARAMS VALUES
+	case $COMMAND in
+		"onstartup")
+			start_dropbox_synchronizer_daemon
+			exit 0
+			;;
+	esac
+
 	echo -e "============================================="
 	echo -e "               Backup Tool                   "
 	echo -e "============================================="
 
 	# Global variables declaration.
 	echo -e "Initialize global variables."
-	readonly -a PROJECT_DIRS=( \
+	local -r -a PROJECT_DIRS=( \
 		"${PROJECT_CONFIG_DIR}" \
 		"${PROJECT_LOG_DIR}" \
 		"${PROJECT_SRC_DIR}" \
