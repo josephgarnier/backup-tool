@@ -450,36 +450,36 @@ incremental_save_to_dropbox() {
 # Returns:
 #   None.
 # Exits:
-#   -1: if rsync, lsyncd or dropbox commands are not found.
+#   -1: if rsync, lsyncd or dropbox commands are not found. Also when config files cannot be created or log files cannot be erased and var files reseted
 #######################################
 start_dropbox_synchronizer_daemon() {
-	echo -e "Start Dropbox synchronizer daemon."
+	log_info "Start Dropbox synchronizer daemon."
 	
 	#Looking for rsync
 	which rsync 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -error "ERROR: rsync command not found!"
+		log_error "ERROR: rsync command not found!"
 		exit -1
 	fi
 	#Looking for lsyncd
 	which lsyncd 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -error "ERROR: lsyncd command not found!"
+		log_error "ERROR: lsyncd command not found!"
 		exit -1
 	fi
 	# Looking for Dropbox
 	which dropbox 1>/dev/null
 	if (( ${?} != 0 )); then
-		echo -error "ERROR: dropbox command not found!"
+		log_error "ERROR: dropbox command not found!"
 		exit -1
 	fi
 	# Test for lsyncd deamon is already running
 	if [[ -f "${PROJECT_LSYNCD_PID_FILE}" ]]; then
-		echo -error "ERROR: lsyncd deamon already running!"
+		log_error "ERROR: lsyncd deamon already running!"
 		exit -1
 	fi
 	
-	echo -ne "  copy lsyncd config file template to \"config/\" directory and fill it..."
+	log_info "  copy lsyncd config file template to \"config/\" directory and fill it..."
 	local error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
 		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
@@ -487,9 +487,14 @@ start_dropbox_synchronizer_daemon() {
 		sed -i 's,${PROJECT_SRC_DIR},'"${PROJECT_SRC_DIR}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}") \
 		2>&1 1>/dev/null \
 	)
-	echo -status "${?}" "${error}"
+	if (( ${?} == 0 )); then
+		log_info "  config files are ready."
+	else
+		log_error "ERROR: error with config files: ${error}"
+		exit -1
+	fi
 	
-	echo -ne "  erase the existing log files of the task and var files to default value..."
+	log_info "  erase the existing log files of the task and var files to default value..."
 	error=$((truncate -s 0 "${PROJECT_LOG_FILE}" && \
 		truncate -s 0 "${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}" && \
 		truncate -s 0 "${PROJECT_LSYNCD_PID_FILE}" && \
@@ -497,13 +502,18 @@ start_dropbox_synchronizer_daemon() {
 		echo -ne "0" >"${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}") \
 		2>&1 1>/dev/null \
 	)
-	echo -status "${?}" "${error}"
+	if (( ${?} == 0 )); then
+		log_info "  log files are erased and var files reseted."
+	else
+		log_error "ERROR: error with log or var files: ${error}"
+		exit -1
+	fi
 
-	echo -e "  start the lsyncd process."
+	log_info "  start the lsyncd process."
 	lsyncd -log all "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}"
-	echo -e "  the lsyncd process is started."
+	log_info "  the lsyncd process is started."
 
-	echo -e "Done!"
+	log_info "Done!"
 }
 
 #######################################

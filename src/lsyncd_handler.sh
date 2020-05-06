@@ -9,7 +9,7 @@ readonly OPTIONS="${@}"
 readonly LOCKFILE_DATASTREAM_FILENAME="lsyncd_datastream.lock"
 readonly LOCKFILE_DROPBOX_FILENAME="lsyncd_dropbox.lock"
 
-log_info "Start lsyncd handler for source \"${@: -2:1}\""
+echo -formated "Start lsyncd handler for source \"${@: -2:1}\""
 
 # Write in a file the number of processes so that only the last one stop Dropbox
 lock -1 "${LOCKFILE_DATASTREAM_FILENAME}" 200
@@ -20,25 +20,25 @@ unlock "${LOCKFILE_DATASTREAM_FILENAME}" 200
 # Start Dropbox if not started
 lock -1 "${LOCKFILE_DROPBOX_FILENAME}" 201
 if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]; then
-	log_info "Start Dropbox..."
+	echo -formated "Start Dropbox..."
 	dropbox start
 	while [[ "$(dropbox status)" != "Up to date" ]]; do
 		sleep 1
 	done
-	log_info "Dropbox is started."
+	echo -formated "Dropbox is started."
 	sleep 1
 fi
 unlock "${LOCKFILE_DROPBOX_FILENAME}" 201
 
 # Synchronization with rsync command
-log_info "Synchronization with rsync command..."
+echo -formated "Synchronization with rsync command..."
 rsync ${OPTIONS}
 declare -r -i rsync_status=${?}
 (
 	if (( ${rsync_status} == 0 )); then
 		log_info "Synchronized!"
 	else
-		log_info "Fail to synchronize! Error code is ${rsync_status}."
+		log_error "ERROR: fail to synchronize! Error code is ${rsync_status}."
 	fi
 	
 	# Stop Dropbox if it is the last processus
@@ -60,6 +60,8 @@ declare -r -i rsync_status=${?}
 		done
 		unlock "${LOCKFILE_DROPBOX_FILENAME}" 201
 		log_info "Dropbox is shutown and has status \"$(dropbox status)\"."
+	else
+		log_info "It remains $((${remaining_processes}-1)) processes, Dropbox will not be stopped"
 	fi
 	
 	# Decrement the number of processes
