@@ -61,7 +61,7 @@ declare -r -i rsync_status=${?}
 		unlock "${LOCKFILE_DROPBOX_FILENAME}" 201
 		log_info "Dropbox is shutown and has status \"$(dropbox status)\"."
 	else
-		log_info "It remains $((${remaining_processes}-1)) processes, Dropbox will not be stopped"
+		log_info "It remains $((${remaining_processes}-1)) processes, Dropbox will not be stopped."
 	fi
 	
 	# Decrement the number of processes
@@ -70,7 +70,7 @@ declare -r -i rsync_status=${?}
 	assert_eq "${?}" "0" "Can't write the file \"${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}\""
 	unlock "${LOCKFILE_DATASTREAM_FILENAME}" 200
 
-	log_info "End of lsyncd handler for source \"${@: -2:1}\""
+	log_info "End of lsyncd handler for source \"${@: -2:1}\"."
 ) 1>/dev/null 2>&1 </dev/null
 
 exit ${rsync_status}
