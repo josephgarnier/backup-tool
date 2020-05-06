@@ -131,7 +131,9 @@ submenu_application_selection() {
 }
 
 #######################################
-# The Main function. Use `backup_tools.sh onstartup` to start the task start_dropbox_synchronizer_daemon on startup 
+# The Main function.
+# Use `backup_tools.sh onstartup` to start the task start_dropbox_synchronizer_daemon on startup.
+# Use `backup_tools.sh onshutdown` to start the task stop_dropbox_synchronizer_daemon on shutdown.
 # Globals:
 #   PROJECT_CONFIG_DIR.
 #   PROJECT_LOG_DIR.
@@ -158,6 +160,10 @@ main() {
 	case $COMMAND in
 		"onstartup")
 			start_dropbox_synchronizer_daemon
+			exit 0
+			;;
+		"onshutdown")
+			stop_dropbox_synchronizer_daemon
 			exit 0
 			;;
 	esac
