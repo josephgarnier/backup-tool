@@ -435,8 +435,8 @@ incremental_save_to_dropbox() {
 #######################################
 # Start Dropbox synchronizer daemon
 # Globals:
-#   PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE.
 #   PROJECT_LSYNCD_CONFIG_FILE.
+#   PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE.
 #   PROJECT_LOG_FILE.
 #   PROJECT_LSYNCD_PID_FILE.
 #   PROJECT_LSYNCD_STATUS_FILE.
@@ -480,11 +480,11 @@ start_dropbox_synchronizer_daemon() {
 	fi
 	
 	log_info "  copy lsyncd config file template to \"config/\" directory and fill it..."
-	local error=$((cp -T --preserve=all "${PROJECT_LSYNCD_CONFIG_FILE}" "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_STATUS_FILE},'"${PROJECT_LSYNCD_STATUS_FILE}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_SRC_DIR},'"${PROJECT_SRC_DIR}"',' "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}") \
+	local error=$((cp -T --preserve=all "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" "${PROJECT_LSYNCD_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_LSYNCD_STATUS_FILE},'"${PROJECT_LSYNCD_STATUS_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
+		sed -i 's,${PROJECT_SRC_DIR},'"${PROJECT_SRC_DIR}"',' "${PROJECT_LSYNCD_CONFIG_FILE}") \
 		2>&1 1>/dev/null \
 	)
 	if (( ${?} == 0 )); then
@@ -510,7 +510,7 @@ start_dropbox_synchronizer_daemon() {
 	fi
 
 	log_info "  start the lsyncd process..."
-	lsyncd -log all "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}"
+	lsyncd -log all "${PROJECT_LSYNCD_CONFIG_FILE}"
 	log_info "  the lsyncd process is started."
 
 	log_info "Done!"
@@ -521,7 +521,7 @@ start_dropbox_synchronizer_daemon() {
 # Globals:
 #   PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE
 #   PROJECT_LSYNCD_PID_FILE.
-#   PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE.
+#   PROJECT_LSYNCD_CONFIG_FILE.
 # Arguments:
 #   None.
 # Outputs:
@@ -552,7 +552,7 @@ stop_dropbox_synchronizer_daemon() {
 	fi
 	
 	log_info "  remove the config file from \"config/\" directory and all var files from \"var/\" directory..."
-	error=$((rm -f "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" && \
+	error=$((rm -f "${PROJECT_LSYNCD_CONFIG_FILE}" && \
 		rm -f "${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}" && \
 		rm -f "${PROJECT_LSYNCD_PID_FILE}") \
 		2>&1 1>/dev/null \
