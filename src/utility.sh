@@ -20,8 +20,9 @@ readonly -A COLORS=( \
 #   COLORS
 # Arguments:
 #   See echo command.
-#   -error: display a message with red color.
+#   -error <error_message>: display a message with red color.
 #   -status <error_code> <error_message>: display a message either with green color if success or red if fail.
+#   -formated <message>: display a message with an header.
 # Outputs:
 #   Write message to STDOUT.
 # Returns:
@@ -31,19 +32,25 @@ readonly -A COLORS=( \
 #######################################
 echo() {
 	local -r option="${1}"
-	local -r error_code="${2}"
-	local -r error_message="${3}"
 
 	case "${option}" in
 		"-error")
-			echo -e "\e[31m${error_code}\e[0m" 1>&2
+			local -r error_message="${2}"
+			echo -e "${COLORS[RED]}${error_message}${COLORS[RESET]}" 1>&2
 			;;
 		"-status")
+			local -r error_code="${2}"
+			local -r error_message="${3}"
 			if [[ "${error_code}" -eq 0 ]]; then
 				echo -e " ${COLORS[GREEN]}[success]${COLORS[RESET]}"
 			else
 				echo -e " ${COLORS[RED]}[fail]: ${error_message}${COLORS[RESET]}" 1>&2
 			fi
+			;;
+		"-formated")
+			local -r message="${2}"
+			local -r header="$(date +"%Y/%m/%d %H:%M:%S") [$$]"
+			echo -e "${header} ${message}"
 			;;
 		*)
 			command echo "${@}"
