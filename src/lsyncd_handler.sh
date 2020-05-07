@@ -42,6 +42,7 @@ declare -r -i rsync_status=${?}
 	fi
 	
 	# Stop Dropbox if it is the last processus
+	lock -1 "${LOCKFILE_DATASTREAM_FILENAME}" 200
 	declare -r -i remaining_processes="$(cat ${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE})"
 	assert_ge ${remaining_processes} 0 "Remaining processes is less than 0"
 	if (( ${remaining_processes} == 1 )); then
@@ -65,7 +66,6 @@ declare -r -i rsync_status=${?}
 	fi
 	
 	# Decrement the number of processes
-	lock -1 "${LOCKFILE_DATASTREAM_FILENAME}" 200
 	gawk -i inplace '{$1=$1-1}1' "${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}"
 	assert_eq "${?}" "0" "Can't write the file \"${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}\""
 	unlock "${LOCKFILE_DATASTREAM_FILENAME}" 200
