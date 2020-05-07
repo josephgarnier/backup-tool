@@ -1,5 +1,7 @@
 [Unit]
 Description=Backup Tool by Joseph Garnier
+Requires=default.target
+After=graphical.target
 
 [Service]
 Type=oneshot
@@ -8,4 +10,4 @@ RemainAfterExit=true
 ExecStop=/bin/bash /opt/backup_tool/src/backup_tool.sh onshutdown
 
 [Install]
-WantedBy=graphical.target
+WantedBy=default.target
