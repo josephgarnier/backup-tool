@@ -10,26 +10,30 @@ settings {
 	nodaemon        = false,
 	statusFile      = "${PROJECT_LSYNCD_STATUS_FILE}",
 	statusInterval  = 3600, -- update status every 20 seconds
-	maxProcesses    = 6
+	maxProcesses    = 2
 }
 
 -- key is full path directory, value is directory name
 local sources = {
-	["/home/joseph/Documents/Graphisme_et_Modelisation"] = "Graphisme_et_Modelisation",
 	["/home/joseph/Documents/Livres"] = "Livres",
-	["/home/joseph/Documents/Reserve_Cyberdefense"] = "Reserve_Cyberdefense",
-	["/home/joseph/Documents/Scolarite"] = "Scolarite",
-	["/home/joseph/Documents/Sport"] = "Sport",
-	["/home/joseph/Documents/Travail"] = "Travail"
+	["/home/joseph/Documents/Travail/Recherche/Projets/BeInG"] = "BeInG"
 }
 
-for full_path, dir_name in pairs(sources) do
+local exclude_rules = {
+	["/home/joseph/Documents/Livres"] = {},
+	["/home/joseph/Documents/Travail/Recherche/Projets/BeInG"] = {
+		'/Etat_de_l_Art/video'
+	}
+}
+
+for source_path, dir_name in pairs(sources) do
 	sync {
 		default.rsync,
-		source = full_path,
+		source = source_path,
 		target = "/home/joseph/Dropbox/Backup/" .. dir_name,
 		delay  = 3600, -- aggregate events every 3600 seconds
 		delete = true, -- --delete: this tells rsync to delete extraneous files from the receiving side (ones that aren't on the sending side), but only for the directories that are being synchronized.
+		exclude = exclude_rules[source_path],
 		rsync  = {
 			binary        = "${PROJECT_SRC_DIR}/lsyncd_handler.sh",
 			acls          = true, -- -A, --acls: this option causes rsync to update the destination ACLs to be the same as the source ACLs.
