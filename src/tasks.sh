@@ -473,18 +473,20 @@ start_dropbox_synchronizer_daemon() {
 		log_error "ERROR: dropbox command not found!"
 		exit -1
 	fi
-	# Test for lsyncd deamon is already running
-	if [[ -f "${PROJECT_LSYNCD_PID_FILE}" ]]; then
-		log_error "ERROR: lsyncd deamon already running!"
+	# Test if lsyncd deamon is already running
+	pgrep -x lsyncd 1>/dev/null
+	if (( ${?} == 0 )); then
+		log_error "ERROR: lsyncd deamon is already running!"
 		exit -1
 	fi
-	
+
 	log_info "  copy lsyncd config file template to \"config/\" directory and fill it..."
 	local error=$((cp -T --preserve=all "${PROJECT_LSYNCD_TEMPLATE_CONFIG_FILE}" "${PROJECT_LSYNCD_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_LSYNCD_STATUS_FILE},'"${PROJECT_LSYNCD_STATUS_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
-		sed -i 's,${PROJECT_SRC_DIR},'"${PROJECT_SRC_DIR}"',' "${PROJECT_LSYNCD_CONFIG_FILE}") \
+			sed -i 's,${PROJECT_LOG_FILE},'"${PROJECT_LOG_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
+			sed -i 's,${PROJECT_LSYNCD_PID_FILE},'"${PROJECT_LSYNCD_PID_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
+			sed -i 's,${PROJECT_LSYNCD_STATUS_FILE},'"${PROJECT_LSYNCD_STATUS_FILE}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" && \
+			sed -i 's,${PROJECT_SRC_DIR},'"${PROJECT_SRC_DIR}"',' "${PROJECT_LSYNCD_CONFIG_FILE}" \
+		) \
 		2>&1 1>/dev/null \
 	)
 	if (( ${?} == 0 )); then
@@ -499,7 +501,8 @@ start_dropbox_synchronizer_daemon() {
 		truncate -s 0 "${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}" && \
 		truncate -s 0 "${PROJECT_LSYNCD_PID_FILE}" && \
 		truncate -s 0 "${PROJECT_LSYNCD_STATUS_FILE}" && \
-		echo -ne "0" >"${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}") \
+		echo -ne "0" >"${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}" \
+		) \
 		2>&1 1>/dev/null \
 	)
 	if (( ${?} == 0 )); then
@@ -535,8 +538,9 @@ start_dropbox_synchronizer_daemon() {
 stop_dropbox_synchronizer_daemon() {
 	log_info "Stop Dropbox synchronizer daemon."
 	
-	# Test for lsyncd deamon is running
-	if [[ ! -f "${PROJECT_LSYNCD_PID_FILE}" ]]; then
+	# Test if lsyncd deamon is running
+	pgrep -x lsyncd 1>/dev/null
+	if (( ${?} != 0 )); then
 		log_error "ERROR: lsyncd deamon is not running!"
 		exit -1
 	fi
@@ -553,8 +557,9 @@ stop_dropbox_synchronizer_daemon() {
 	
 	log_info "  remove the config file from \"config/\" directory and all var files from \"var/\" directory..."
 	error=$((rm -f "${PROJECT_LSYNCD_CONFIG_FILE}" && \
-		rm -f "${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}" && \
-		rm -f "${PROJECT_LSYNCD_PID_FILE}") \
+			rm -f "${PROJECT_LSYNCD_PROCESS_DATASTREAM_FILE}" && \
+			rm -f "${PROJECT_LSYNCD_PID_FILE}" \
+		) \
 		2>&1 1>/dev/null \
 	)
 	if (( ${?} == 0 )); then

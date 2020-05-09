@@ -132,8 +132,8 @@ submenu_application_selection() {
 
 #######################################
 # The Main function.
-# Use `backup_tools.sh onstartup` to start the task start_dropbox_synchronizer_daemon on startup.
-# Use `backup_tools.sh onshutdown` to start the task stop_dropbox_synchronizer_daemon on shutdown.
+# Use `backup_tools.sh onstartup` to start the task `start_dropbox_synchronizer_daemon`.
+# Use `backup_tools.sh onshutdown` to start the task `stop_dropbox_synchronizer_daemon`.
 # Globals:
 #   PROJECT_CONFIG_DIR.
 #   PROJECT_LOG_DIR.
@@ -141,7 +141,8 @@ submenu_application_selection() {
 #   PROJECT_TEMP_DIR.
 #   PROJECT_VAR_DIR.
 # Arguments:
-#   None.
+#   onstartup: to start the task `start_dropbox_synchronizer_daemon`.
+#   onshutdown: to start the task `stop_dropbox_synchronizer_daemon`.
 # Outputs:
 #   Write messages to STDOUT.
 #   Write errors to STDERR.
