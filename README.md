@@ -1,8 +1,10 @@
 # backup-tool
 
-A script to backup your files.
+A tool to backup my personal files. It's a **personnal project**, not documentation will be written.
 
 ## Installation
+
+To use this project, install it with the `install.sh` script or follow the steps below.
 
 1. Copy all directories and files in `/opt/backup_tool`.
 
