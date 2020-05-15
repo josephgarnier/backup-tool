@@ -339,7 +339,7 @@ incremental_save_to_remote_disk() {
 		"/home/joseph/Documents/Travail" \
 	)
 	local -r DEST_DIR="admin@192.168.0.253:/shares/Documents/Joseph"
-	local -r OPTIONS="-r -t -p -v --progress --delete -c -l -H -i -s"
+	local -r OPTIONS="--checksum --delete --hard-links --human-readable --itemize-changes --links --perms --progress --protect-args --recursive --times --verbose"
 	
 	echo -e "============================="
 	for path in "${SRC_DIRS[@]}"; do
@@ -395,16 +395,11 @@ incremental_save_to_dropbox() {
 	
 	# Save with rsync command
 	local -r -a SRC_DIRS=( \
-		"/home/joseph/Documents/Documents_Administratifs" \
-		"/home/joseph/Documents/Graphisme_et_Modelisation" \
 		"/home/joseph/Documents/Livres" \
-		"/home/joseph/Documents/Reserve_Cyberdefense" \
-		"/home/joseph/Documents/Scolarite" \
-		"/home/joseph/Documents/Sport" \
-		"/home/joseph/Documents/Travail" \
+		"/home/joseph/Documents/Travail/Recherche/Projets/BeInG" \
 	)
 	local -r DROPBOX_DEST_DIR="/home/joseph/Dropbox/Backup"
-	local -r OPTIONS="--archive --hard-links --acls --xattrs --verbose --progress --delete --checksum --itemize-changes --protect-args"
+	local -r OPTIONS="--acls --archive --checksum --executability --delete --hard-links --human-readable --itemize-changes --progress --protect-args --verbose --whole-file --xattrs"
 	
 	echo -e "============================="
 	for path in "${SRC_DIRS[@]}"; do
