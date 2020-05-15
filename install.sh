@@ -8,6 +8,7 @@
 
 readonly INSTALL_DIR="/opt/backup_tool"
 readonly SERVICE_FILE="/home/joseph/.config/systemd/user/backup_tool.service"
+readonly MENU_ENTRY_FILE="/home/joseph/.local/share/applications/backup_tool_service.desktop"
 
 #######################################
 # The Main function.
@@ -49,9 +50,10 @@ main() {
 	fi
 
 	echo -e ""
-	echo -e "Clean dirctory \"${INSTALL_DIR}\" from old installation and remove the service file \"${SERVICE_FILE}\"..."
+	echo -e "Clean dirctory \"${INSTALL_DIR}\" from old installation, remove the service file \"${SERVICE_FILE}\" and the menu entry \"${MENU_ENTRY_FILE}\"..."
 	local error=$((rm -f -r "${INSTALL_DIR}/"* && \
-			rm -f "${SERVICE_FILE}" \
+			rm -f "${SERVICE_FILE}" && \
+			rm -f "${MENU_ENTRY_FILE}" \
 		) \
 		2>&1 1>/dev/null \
 	)
@@ -62,13 +64,14 @@ main() {
 	echo -e "Install directory is clear and service file removed."
 	
 	echo -e ""
-	echo -e "Copy all files in \"${INSTALL_DIR}\" and service file in \"${SERVICE_FILE}\"..."
+	echo -e "Copy all source files in \"${INSTALL_DIR}\", the service file in \"${SERVICE_FILE}\" and the menu entry file in \"${MENU_ENTRY_FILE}\"..."
 	local error=$((cp --parents -a "config/lsyncd.conf.in" "${INSTALL_DIR}" && \
 			mkdir --parents "${INSTALL_DIR}/log" && \
 			cp --parents -a "src/" "${INSTALL_DIR}" && \
 			mkdir --parents "${INSTALL_DIR}/temp" && \
 			mkdir --parents "${INSTALL_DIR}/var" && \
-			cp -T --preserve=all "src/backup_tool.service" "${SERVICE_FILE}" \
+			cp -T --preserve=all "src/backup_tool.service" "${SERVICE_FILE}" && \
+			cp -T --preserve=all "src/backup_tool_service.desktop" "${MENU_ENTRY_FILE}" \
 		) \
 		2>&1 1>/dev/null \
 	)
@@ -79,7 +82,7 @@ main() {
 	echo -e "Files copied."
 
 	echo -e ""
-	echo -e "Enable the service..."
+	echo -e "Enable and start the service..."
 	local error=$((systemctl --user enable backup_tool.service && \
 				systemctl --user start backup_tool.service \
 			) \
@@ -89,7 +92,7 @@ main() {
 			echo -e "ERROR: ${error}" 1>&2
 			exit -1
 		fi
-	echo -e "Service enabled."
+	echo -e "Service enabled and started."
 	
 	echo ""
 	echo -e "Installation is over with success."

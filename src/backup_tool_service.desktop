@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Backup Tool Service
+Comment=Backup Tool Service
+Exec=/bin/bash -c "/opt/backup_tool/src/backup_tool.sh;/bin/bash"
+Icon=mintbackup
+Terminal=true
+Type=Application
+Categories=System;Settings;
+StartupNotify=false
+NoDisplay=false
