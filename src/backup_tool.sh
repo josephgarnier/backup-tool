@@ -78,6 +78,7 @@ submenu_application_selection() {
 		"Mendeley" \
 		"Recoll" \
 		"Visual Studio Code" \
+		"Qt Creator" \
 		"Linux Settings" \
 		"Quit" \
 	)
@@ -112,6 +113,11 @@ submenu_application_selection() {
 			"Visual Studio Code")
 				pre_task
 				visual_studio_code
+				post_task
+				;;
+			"Qt Creator")
+				pre_task
+				qt_creator
 				post_task
 				;;
 			"Linux Settings")
@@ -247,7 +253,8 @@ main() {
 					echo -e " 4. Mendeley"
 					echo -e " 5. Recoll"
 					echo -e " 6. Visual Studio Code"
-					echo -e " 7. Linux Settings"
+					echo -e " 7. Qt Creator"
+					echo -e " 8. Linux Settings"
 					echo -e ""
 					pre_task
 					ppa_source_list
@@ -266,6 +273,9 @@ main() {
 					post_task
 					pre_task
 					visual_studio_code
+					post_task
+					pre_task
+					qt_creator
 					post_task
 					pre_task
 					linux_settings
