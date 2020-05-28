@@ -345,6 +345,45 @@ linux_settings() {
 }
 
 #######################################
+# Backup Zotero
+# Globals:
+#   PROJECT_TEMP_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   None.
+#######################################
+zotero() {
+	echo -e "Backup Zotero."
+
+	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Latex/Zotero"
+	local -r OUTPUT_ZIP_NAME="zotero.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
+	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
+
+	echo -ne "  copy data files to temp directory..."
+	local error=$(cp --parents -a "/home/joseph/.zotero" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create a zip file with content of temp directory and clean it..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	assert_eq "$(ls -A "${PROJECT_TEMP_DIR}")" "" "\"/temp\" directory is not empty!"
+
+	echo -e "Done!"
+}
+
+#######################################
 # Incremental save to remote disk
 # Globals:
 #   None.

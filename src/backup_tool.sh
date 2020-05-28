@@ -80,6 +80,7 @@ submenu_application_selection() {
 		"Visual Studio Code" \
 		"Qt Creator" \
 		"Linux Settings" \
+		"Zotero" \
 		"Quit" \
 	)
 	local -r PS3="Select an application to backup: "
@@ -123,6 +124,11 @@ submenu_application_selection() {
 			"Linux Settings")
 				pre_task
 				linux_settings
+				post_task
+				;;
+			"Zotero")
+				pre_task
+				zotero
 				post_task
 				;;
 			"Quit")
@@ -255,6 +261,7 @@ main() {
 					echo -e " 6. Visual Studio Code"
 					echo -e " 7. Qt Creator"
 					echo -e " 8. Linux Settings"
+					echo -e " 8. Zotero"
 					echo -e ""
 					pre_task
 					ppa_source_list
@@ -279,6 +286,9 @@ main() {
 					post_task
 					pre_task
 					linux_settings
+					post_task
+					pre_task
+					zotero
 					post_task
 					break
 					;;
