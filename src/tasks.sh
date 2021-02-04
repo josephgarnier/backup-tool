@@ -107,7 +107,7 @@ gitkraken() {
 texstudio() {
 	echo -e "Backup TeXstudio."
 
-	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Latex"
+	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Latex/TeXstudio"
 	local -r OUTPUT_FILE_NAME="texstudio.txsprofile"
 	local -r OUTPUT_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
 	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
