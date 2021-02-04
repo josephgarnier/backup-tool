@@ -81,6 +81,9 @@ submenu_application_selection() {
 		"Qt Creator" \
 		"Linux Settings" \
 		"Zotero" \
+		"AppImageLauncher" \
+		"Zettlr" \
+		"Mark Text" \
 		"Quit" \
 	)
 	local -r PS3="Select an application to backup: "
@@ -129,6 +132,21 @@ submenu_application_selection() {
 			"Zotero")
 				pre_task
 				zotero
+				post_task
+				;;
+			"AppImageLauncher")
+				pre_task
+				appimage_launcher
+				post_task
+				;;
+			"Zettlr")
+				pre_task
+				zettlr
+				post_task
+				;;
+			"Mark Text")
+				pre_task
+				mark_text
 				post_task
 				;;
 			"Quit")
@@ -261,7 +279,10 @@ main() {
 					echo -e " 6. Visual Studio Code"
 					echo -e " 7. Qt Creator"
 					echo -e " 8. Linux Settings"
-					echo -e " 8. Zotero"
+					echo -e " 9. Zotero"
+					echo -e " 10. AppImageLauncher"
+					echo -e " 11. Zettlr"
+					echo -e " 12. Mark Text"
 					echo -e ""
 					pre_task
 					ppa_source_list
@@ -289,6 +310,15 @@ main() {
 					post_task
 					pre_task
 					zotero
+					post_task
+					pre_task
+					appimage_launcher
+					post_task
+					pre_task
+					zettlr
+					post_task
+					pre_task
+					mark_text
 					post_task
 					break
 					;;

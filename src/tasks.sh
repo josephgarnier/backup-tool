@@ -384,6 +384,124 @@ zotero() {
 }
 
 #######################################
+# Backup AppImageLauncher
+# Globals:
+#   PROJECT_TEMP_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   None.
+#######################################
+appimage_launcher() {
+	echo -e "Backup AppImageLauncher."
+
+	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/AppImage_Launcher"
+	local -r OUTPUT_FILE_NAME="appimagelauncher.cfg"
+	local -r OUTPUT_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
+	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
+
+	echo -ne "  copy config file to temp directory..."
+	local error=$(cp -T --preserve=all "/home/joseph/.config/appimagelauncher.cfg" "${OUTPUT_FILE}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move config file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
+	error=$(mv -f "${OUTPUT_FILE}" "${DEST_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -e "Done!"
+}
+
+#######################################
+# Backup Zettlr
+# Globals:
+#   PROJECT_TEMP_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   None.
+#######################################
+zettlr() {
+	echo -e "Backup Zettlr."
+	
+	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Zettlr"
+	local -r OUTPUT_ZIP_NAME="zettlr.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
+	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
+
+	echo -ne "  copy each file to temp directory..."
+	local error=$(cp --parents --preserve=all \
+		"/home/joseph/.config/Zettlr/stats.json" \
+		"/home/joseph/.config/Zettlr/config.json" \
+		"/home/joseph/.config/Zettlr/custom.css" \
+		"/home/joseph/.config/Zettlr/custom_model_export.tex" \
+		"/home/joseph/.config/Zettlr/tags.json" \
+		"/home/joseph/.config/Zettlr/targets.json" \
+		"/home/joseph/.config/Zettlr/user.dic" \
+		"${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create a zip file with output directory content..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	echo -e "Done!"
+}
+
+#######################################
+# Backup Mark Text
+# Globals:
+#   PROJECT_TEMP_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   None.
+#######################################
+mark_text() {
+	echo -e "Backup Mark Text."
+	
+	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Mark_Text"
+	local -r OUTPUT_ZIP_NAME="mark_text.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
+	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
+
+	echo -ne "  copy each file to temp directory..."
+	local error=$(cp --parents --preserve=all \
+		"/home/joseph/.config/marktext/dataCenter.json" \
+		"/home/joseph/.config/marktext/preferences.json" \
+		"${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create a zip file with output directory content..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+	
+	echo -e "Done!"
+}
+
+#######################################
 # Incremental save to remote disk
 # Globals:
 #   None.
