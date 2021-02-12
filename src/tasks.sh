@@ -591,7 +591,7 @@ incremental_save_to_dropbox() {
 	
 	# Save with rsync command
 	local -r -a SRC_DIRS=( \
-		"/home/joseph/Documents/Livres" \
+		"/home/joseph/Documents/Travail/Ingenerie/Projets/Digital_Garden" \
 		"/home/joseph/Documents/Travail/Recherche/Projets/BeInG" \
 	)
 	local -r DROPBOX_DEST_DIR="/home/joseph/Dropbox/Backup"
