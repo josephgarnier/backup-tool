@@ -366,7 +366,7 @@ zotero() {
 	echo -e "Backup Zotero."
 
 	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Latex/Zotero"
-	local -r OUTPUT_ZIP_NAME="zotero.zip"
+	local -r OUTPUT_ZIP_NAME="Zotero.zip"
 	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
 
@@ -438,7 +438,7 @@ zettlr() {
 	echo -e "Backup Zettlr."
 	
 	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Zettlr"
-	local -r OUTPUT_ZIP_NAME="zettlr.zip"
+	local -r OUTPUT_ZIP_NAME="Zettlr.zip"
 	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
 
@@ -484,7 +484,7 @@ mark_text() {
 	echo -e "Backup Mark Text."
 	
 	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Mark_Text"
-	local -r OUTPUT_ZIP_NAME="mark_text.zip"
+	local -r OUTPUT_ZIP_NAME="Mark_Text.zip"
 	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
 
