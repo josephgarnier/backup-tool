@@ -108,18 +108,22 @@ texstudio() {
 	echo -e "Backup TeXstudio."
 
 	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Latex/TeXstudio"
-	local -r OUTPUT_FILE_NAME="texstudio.txsprofile"
-	local -r OUTPUT_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
-	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
+	local -r OUTPUT_ZIP_NAME="TeXstudio.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
+	local -r DEST_ZIP_FILE="${DEST_DIR}/${OUTPUT_ZIP_NAME}"
 
-	echo -ne "  copy profile file to temp directory..."
-	local error=$(cp -T --preserve=all "/home/joseph/.config/texstudio/texstudio.ini" "${OUTPUT_FILE}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+	echo -ne "  copy config file to temp directory..."
+	local error=$(cp --parents -a "/home/joseph/.config/texstudio" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move profile file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
-	error=$(mv -f "${OUTPUT_FILE}" "${DEST_FILE}" 2>&1 1>/dev/null)
+	echo -ne "  create a zip file with content of temp directory and clean it..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip -r -m "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
-	
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv -f "${OUTPUT_ZIP_FILE}" "${DEST_ZIP_FILE}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
 	echo -e "Done!"
 }
 
