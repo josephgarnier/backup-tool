@@ -448,6 +448,7 @@ zettlr() {
 		"/home/joseph/.config/Zettlr/config.json" \
 		"/home/joseph/.config/Zettlr/custom.css" \
 		"/home/joseph/.config/Zettlr/custom_model_export.tex" \
+		"/home/joseph/.config/Zettlr/default_style.csl" \
 		"/home/joseph/.config/Zettlr/tags.json" \
 		"/home/joseph/.config/Zettlr/targets.json" \
 		"/home/joseph/.config/Zettlr/user.dic" \
