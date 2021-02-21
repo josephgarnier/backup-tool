@@ -11,6 +11,10 @@ if [[ ! -d "${DIR}" ]]; then DIR="${PWD}"; fi
 source "${DIR}/tasks.sh"
 
 #######################################
+# PRIVATE
+#######################################
+
+#######################################
 # Pre processing of a task.
 # Globals:
 #   PROJECT_TEMP_DIR
@@ -24,7 +28,7 @@ source "${DIR}/tasks.sh"
 # Exits:
 #   -1: if temp directory in not empty.
 #######################################
-pre_task() {
+__pre_task() {
 	if [[ -n "$(ls -A "${PROJECT_TEMP_DIR}")" ]]; then
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
@@ -46,7 +50,7 @@ pre_task() {
 # Exits:
 #   -1: if temp directory in not empty.
 #######################################
-post_task() {
+__post_task() {
 	if [[ -n "$(ls -A "${PROJECT_TEMP_DIR}")" ]]; then
 		echo -error "ERROR: \"/temp\" directory is not empty!"
 		exit -1
@@ -68,7 +72,7 @@ post_task() {
 # Exits:
 #   None.
 #######################################
-submenu_application_selection() {
+__submenu_application_selection() {
 	echo -e ""
 	echo -e "=== Specific app menu selection ==="
 	local -r -a MENU_OPTIONS=( \
@@ -90,64 +94,64 @@ submenu_application_selection() {
 	select opt in "${MENU_OPTIONS[@]}"; do
 		case "${opt}" in
 			"PPA source list")
-				pre_task
+				__pre_task
 				ppa_source_list
-				post_task
+				__post_task
 				;;
 			"GitKraken")
-				pre_task
+				__pre_task
 				gitkraken
-				post_task
+				__post_task
 				;;
 			"TeXstudio")
-				pre_task
+				__pre_task
 				texstudio
-				post_task
+				__post_task
 				;;
 			"Mendeley")
-				pre_task
+				__pre_task
 				mendeley
-				post_task
+				__post_task
 				;;
 			"Recoll")
-				pre_task
+				__pre_task
 				recoll
-				post_task
+				__post_task
 				;;
 			"Visual Studio Code")
-				pre_task
+				__pre_task
 				visual_studio_code
-				post_task
+				__post_task
 				;;
 			"Qt Creator")
-				pre_task
+				__pre_task
 				qt_creator
-				post_task
+				__post_task
 				;;
 			"Linux Settings")
-				pre_task
+				__pre_task
 				linux_settings
-				post_task
+				__post_task
 				;;
 			"Zotero")
-				pre_task
+				__pre_task
 				zotero
-				post_task
+				__post_task
 				;;
 			"AppImageLauncher")
-				pre_task
+				__pre_task
 				appimage_launcher
-				post_task
+				__post_task
 				;;
 			"Zettlr")
-				pre_task
+				__pre_task
 				zettlr
-				post_task
+				__post_task
 				;;
 			"Mark Text")
-				pre_task
+				__pre_task
 				mark_text
-				post_task
+				__post_task
 				;;
 			"Quit")
 				break
@@ -159,6 +163,10 @@ submenu_application_selection() {
 		esac
 	done
 }
+
+#######################################
+# PUBLIC
+#######################################
 
 #######################################
 # The Main function.
@@ -187,7 +195,7 @@ main() {
 	# local -r ARG2="${*:$OPTIND+2:1}" # not used
 	local -r -i NB_ARGS=${#-$OPTIND}
 
-	#CHECKING PARAMS VALUES
+	# Checking params values.
 	case $COMMAND in
 		"onstartup")
 			start_dropbox_synchronizer_daemon
@@ -245,31 +253,31 @@ main() {
 		select opt in "${MENU_OPTIONS[@]}"; do
 			case "${opt}" in
 				"Incremental save to Remote Disk")
-					pre_task
+					__pre_task
 					incremental_save_to_remote_disk
-					post_task
+					__post_task
 					break
 					;;
 				"Incremental save to Dropbox")
-					pre_task
+					__pre_task
 					incremental_save_to_dropbox
-					post_task
+					__post_task
 					break
 					;;
 				"Start Dropbox synchronizer daemon")
-					pre_task
+					__pre_task
 					start_dropbox_synchronizer_daemon
-					post_task
+					__post_task
 					break
 					;;
 				"Stop Dropbox synchronizer daemon")
-					pre_task
+					__pre_task
 					stop_dropbox_synchronizer_daemon
-					post_task
+					__post_task
 					break
 					;;
 				"Backup all apps")
-					pre_task
+					__pre_task
 					echo -e "Summary of backup steps:"
 					echo -e " 1. PPA source list"
 					echo -e " 2. GitKraken"
@@ -284,46 +292,46 @@ main() {
 					echo -e " 11. Zettlr"
 					echo -e " 12. Mark Text"
 					echo -e ""
-					pre_task
+					__pre_task
 					ppa_source_list
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					gitkraken
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					texstudio
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					mendeley
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					recoll
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					visual_studio_code
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					qt_creator
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					linux_settings
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					zotero
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					appimage_launcher
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					zettlr
-					post_task
-					pre_task
+					__post_task
+					__pre_task
 					mark_text
-					post_task
+					__post_task
 					break
 					;;
 				"Backup specific apps")
-					submenu_application_selection
+					__submenu_application_selection
 					break
 					;;
 				"Quit")

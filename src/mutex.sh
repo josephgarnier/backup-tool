@@ -14,7 +14,7 @@ source "${DIR}/utility.sh"
 #######################################
 # PRIVATE
 #######################################
-_trap_add() {
+__trap_add() {
 	local -r command="${1}"
 	local -r signal="${2}"
 	local handler="$(trap -p "${signal}")"
@@ -28,18 +28,18 @@ _trap_add() {
 	fi
 }
 
-_no_more_locking() {
+__no_more_locking() {
 	local -r lockfile="${1}"
 	local -r -i filedescriptor=${2}
 	flock --unlock ${filedescriptor}
 	flock --exclusive --nonblock ${filedescriptor} && rm -f "${lockfile}"
 }
 
-_prepare_mutex() {
+__prepare_mutex() {
 	local -r lockfile="${1}"
 	local -r -i filedescriptor=${2}
 	eval "exec ${filedescriptor}>\"${lockfile}\""
-	_trap_add "_no_more_locking ${lockfile} ${filedescriptor}" "EXIT"
+	__trap_add "__no_more_locking ${lockfile} ${filedescriptor}" "EXIT"
 }
 
 #######################################
@@ -75,7 +75,7 @@ lock() {
 	local -r -i filedescriptor=${3}
 	local -r lockfile="${PROJECT_VAR_DIR}/${filename}"
 	
-	_prepare_mutex "${lockfile}" ${filedescriptor}
+	__prepare_mutex "${lockfile}" ${filedescriptor}
 	if (( ${sleeptime} == -1 )); then
 		flock --exclusive ${filedescriptor}
 		return ${?}
