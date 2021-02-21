@@ -410,7 +410,7 @@ appimage_launcher() {
 	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
 
 	echo -ne "  copy config file to temp directory..."
-	local error=$(cp -T --preserve=all "/home/joseph/.config/appimagelauncher.cfg" "${OUTPUT_FILE}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+	local error=$(cp -T --preserve=all "/home/joseph/.config/appimagelauncher.cfg" "${OUTPUT_FILE}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move config file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
@@ -452,7 +452,7 @@ zettlr() {
 		"/home/joseph/.config/Zettlr/tags.json" \
 		"/home/joseph/.config/Zettlr/targets.json" \
 		"/home/joseph/.config/Zettlr/user.dic" \
-		"${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+		"${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with output directory content..."
@@ -492,7 +492,7 @@ mark_text() {
 	local error=$(cp --parents --preserve=all \
 		"/home/joseph/.config/marktext/dataCenter.json" \
 		"/home/joseph/.config/marktext/preferences.json" \
-		"${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #It preserve mode, ownership and timestamps.
+		"${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create a zip file with output directory content..."
