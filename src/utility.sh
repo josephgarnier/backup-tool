@@ -77,10 +77,9 @@ echo() {
 assert_eq() {
 	local -r -i PARAM_FAILED=99
 	if (( $# < 3 )); then
-		echo -e "usage: assert_eq <expected> <actual> <message>" 1>&2
+		echo -error "ERROR: usage: assert_eq <expected> <actual> <message>" 1>&2
 		exit ${PARAM_FAILED}
 	fi
-	
 	local -r -i ASSERT_FAILED=98
 	local -r expected="${1}"
 	local -r actual="${2}"
@@ -92,8 +91,8 @@ assert_eq() {
 		# An error occured, retrieved the line and the name of the script where
 		# it happend
 		set $(caller)
-		echo -e "Assertion failed: \""${expected}" == "${actual}"\" :: "${message}"" 1>&2
-		echo -e "File \"${0}\", line ${1}" 1>&2
+		echo -error "Assertion failed: \"${expected} == ${actual}\" :: ${message}" 1>&2
+		echo -error "File \"${0}\", line ${1}" 1>&2
 		exit ${ASSERT_FAILED}
 	fi
 }
@@ -117,10 +116,9 @@ assert_eq() {
 assert_lt() {
 	local -r -i PARAM_FAILED=99
 	if (( $# < 3 )); then
-		echo -e "usage: assert_lt <left> <right> <message>" 1>&2
+		echo -error "ERROR: usage: assert_lt <left> <right> <message>" 1>&2
 		exit ${PARAM_FAILED}
 	fi
-	
 	local -r -i ASSERT_FAILED=98
 	local -r -i left=${1}
 	local -r -i right=${2}
@@ -132,8 +130,8 @@ assert_lt() {
 		# An error occured, retrieved the line and the name of the script where
 		# it happend
 		set $(caller)
-		echo -e "Assertion failed: \""${left}" < "${right}"\" :: "${message}"" 1>&2
-		echo -e "File \"${0}\", line ${1}" 1>&2
+		echo -error "Assertion failed: \"${left} < ${right}\" :: ${message}" 1>&2
+		echo -error "File \"${0}\", line ${1}" 1>&2
 		exit ${ASSERT_FAILED}
 	fi
 }
@@ -157,10 +155,9 @@ assert_lt() {
 assert_ge() {
 	local -r -i PARAM_FAILED=99
 	if (( $# < 3 )); then
-		echo -e "usage: assert_ge <left> <right> <message>" 1>&2
+		echo -error "ERROR: usage: assert_ge <left> <right> <message>" 1>&2
 		exit ${PARAM_FAILED}
 	fi
-	
 	local -r -i ASSERT_FAILED=98
 	local -r -i left=${1}
 	local -r -i right=${2}
@@ -171,8 +168,8 @@ assert_ge() {
 	else
 		# An error occured, retrieved the line and the name of the script where it happend
 		set $(caller)
-		echo -e "Assertion failed: \""${left}" >= "${right}"\" :: "${message}"" 1>&2
-		echo -e "File \"${0}\", line ${1}" 1>&2
+		echo -error "Assertion failed: \"${left} >= ${right}\" :: ${message}" 1>&2
+		echo -error "File \"${0}\", line ${1}" 1>&2
 		exit ${ASSERT_FAILED}
 	fi
 }
