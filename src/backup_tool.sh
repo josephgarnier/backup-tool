@@ -76,28 +76,28 @@ __submenu_application_selection() {
 	echo -e ""
 	echo -e "=== Specific app menu selection ==="
 	local -r -a MENU_OPTIONS=( \
-		"Linux home profile" \
-		"Diagrams.net" \
-		"PPA source list" \
-		"GitKraken" \
-		"TeXstudio" \
-		"Mendeley" \
-		"Recoll" \
-		"Visual Studio Code" \
-		"Qt Creator" \
-		"Linux Settings" \
-		"Zotero" \
 		"AppImageLauncher" \
-		"Zettlr" \
+		"Diagrams.net" \
+		"GitKraken" \
+		"Linux home profile" \
+		"Linux settings" \
 		"Mark Text" \
+		"Mendeley" \
+		"PPA source list" \
+		"Qt Creator" \
+		"Recoll" \
+		"TeXstudio" \
+		"Visual Studio Code" \
+		"Zettlr" \
+		"Zotero" \
 		"Quit" \
 	)
 	local -r PS3="Select an application to backup: "
 	select opt in "${MENU_OPTIONS[@]}"; do
 		case "${opt}" in
-			"Linux home profile")
+			"AppImageLauncher")
 				__pre_task
-				home_profile
+				appimage_launcher
 				__post_task
 				;;
 			"Diagrams.net")
@@ -105,19 +105,24 @@ __submenu_application_selection() {
 				diagrams_net
 				__post_task
 				;;
-			"PPA source list")
-				__pre_task
-				ppa_source_list
-				__post_task
-				;;
 			"GitKraken")
 				__pre_task
 				gitkraken
 				__post_task
 				;;
-			"TeXstudio")
+			"Linux home profile")
 				__pre_task
-				texstudio
+				linux_home_profile
+				__post_task
+				;;
+			"Linux settings")
+				__pre_task
+				linux_settings
+				__post_task
+				;;
+			"Mark Text")
+				__pre_task
+				mark_text
 				__post_task
 				;;
 			"Mendeley")
@@ -125,14 +130,9 @@ __submenu_application_selection() {
 				mendeley
 				__post_task
 				;;
-			"Recoll")
+			"PPA source list")
 				__pre_task
-				recoll
-				__post_task
-				;;
-			"Visual Studio Code")
-				__pre_task
-				visual_studio_code
+				ppa_source_list
 				__post_task
 				;;
 			"Qt Creator")
@@ -140,19 +140,19 @@ __submenu_application_selection() {
 				qt_creator
 				__post_task
 				;;
-			"Linux Settings")
+			"Recoll")
 				__pre_task
-				linux_settings
+				recoll
 				__post_task
 				;;
-			"Zotero")
+			"TeXstudio")
 				__pre_task
-				zotero
+				texstudio
 				__post_task
 				;;
-			"AppImageLauncher")
+			"Visual Studio Code")
 				__pre_task
-				appimage_launcher
+				visual_studio_code
 				__post_task
 				;;
 			"Zettlr")
@@ -160,9 +160,9 @@ __submenu_application_selection() {
 				zettlr
 				__post_task
 				;;
-			"Mark Text")
+			"Zotero")
 				__pre_task
-				mark_text
+				zotero
 				__post_task
 				;;
 			"Quit")
@@ -291,54 +291,62 @@ main() {
 				"Backup all apps")
 					__pre_task
 					echo -e "Summary of backup steps:"
-					echo -e " 1. PPA source list"
-					echo -e " 2. GitKraken"
-					echo -e " 3. TeXstudio"
-					echo -e " 4. Mendeley"
-					echo -e " 5. Recoll"
-					echo -e " 6. Visual Studio Code"
-					echo -e " 7. Qt Creator"
-					echo -e " 8. Linux Settings"
-					echo -e " 9. Zotero"
-					echo -e " 10. AppImageLauncher"
-					echo -e " 11. Zettlr"
-					echo -e " 12. Mark Text"
+					echo -e " 1. AppImageLauncher"
+					echo -e " 2. Diagrams.net"
+					echo -e " 3. GitKraken"
+					echo -e " 4. Linux home profile"
+					echo -e " 5. Linux settings"
+					echo -e " 6. Mark Text"
+					echo -e " 7. Mendeley"
+					echo -e " 8. PPA source list"
+					echo -e " 9. Qt Creator"
+					echo -e " 10. Recoll"
+					echo -e " 11. TeXstudio"
+					echo -e " 12. Visual Studio Code"
+					echo -e " 13. Zettlr"
+					echo -e " 14. Zotero"
 					echo -e ""
 					__pre_task
-					ppa_source_list
+					appimage_launcher
+					__post_task
+					__pre_task
+					diagrams_net
 					__post_task
 					__pre_task
 					gitkraken
 					__post_task
 					__pre_task
-					texstudio
-					__post_task
-					__pre_task
-					mendeley
-					__post_task
-					__pre_task
-					recoll
-					__post_task
-					__pre_task
-					visual_studio_code
-					__post_task
-					__pre_task
-					qt_creator
+					linux_home_profile
 					__post_task
 					__pre_task
 					linux_settings
 					__post_task
 					__pre_task
-					zotero
+					mark_text
 					__post_task
 					__pre_task
-					appimage_launcher
+					mendeley
+					__post_task
+					__pre_task
+					ppa_source_list
+					__post_task
+					__pre_task
+					qt_creator
+					__post_task
+					__pre_task
+					recoll
+					__post_task
+					__pre_task
+					texstudio
+					__post_task
+					__pre_task
+					visual_studio_code
 					__post_task
 					__pre_task
 					zettlr
 					__post_task
 					__pre_task
-					mark_text
+					zotero
 					__post_task
 					break
 					;;

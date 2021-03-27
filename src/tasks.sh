@@ -316,7 +316,7 @@ qt_creator() {
 }
 
 #######################################
-# Backup Linux Settings
+# Backup Linux settings
 # Globals:
 #   PROJECT_TEMP_DIR.
 # Arguments:
@@ -330,7 +330,7 @@ qt_creator() {
 #   None.
 #######################################
 linux_settings() {
-	echo -e "Backup Linux Settings."
+	echo -e "Backup Linux settings."
 
 	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Linux_Mint"
 	local -r OUTPUT_FILE_NAME="linux_settings.txt"
@@ -507,7 +507,7 @@ mark_text() {
 }
 
 #######################################
-# Backup home profile
+# Backup Linux home profile
 # Globals:
 #   PROJECT_TEMP_DIR.
 # Arguments:
@@ -520,19 +520,19 @@ mark_text() {
 # Exits:
 #   None.
 #######################################
-home_profile() {
-	echo -e "Backup home profile."
+linux_home_profile() {
+	echo -e "Backup Linux home profile."
 
 	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Linux_Mint"
 	local -r OUTPUT_FILE_NAME=".profile"
 	local -r OUTPUT_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
 	local -r DEST_FILE="${DEST_DIR}/${OUTPUT_FILE_NAME}"
 
-	echo -ne "  copy home profile file to temp directory..."
+	echo -ne "  copy Linux home profile file to temp directory..."
 	local error=$(cp --no-target-directory --preserve=all "/home/joseph/.profile" "${OUTPUT_FILE}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move home profile file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
+	echo -ne "  move Linux home profile file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
 	error=$(mv --force "${OUTPUT_FILE}" "${DEST_FILE}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
