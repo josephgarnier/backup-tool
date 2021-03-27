@@ -76,6 +76,8 @@ __submenu_application_selection() {
 	echo -e ""
 	echo -e "=== Specific app menu selection ==="
 	local -r -a MENU_OPTIONS=( \
+		"Linux home profile" \
+		"Diagrams.net" \
 		"PPA source list" \
 		"GitKraken" \
 		"TeXstudio" \
@@ -93,6 +95,16 @@ __submenu_application_selection() {
 	local -r PS3="Select an application to backup: "
 	select opt in "${MENU_OPTIONS[@]}"; do
 		case "${opt}" in
+			"Linux home profile")
+				__pre_task
+				home_profile
+				__post_task
+				;;
+			"Diagrams.net")
+				__pre_task
+				diagrams_net
+				__post_task
+				;;
 			"PPA source list")
 				__pre_task
 				ppa_source_list
