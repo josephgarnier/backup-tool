@@ -79,7 +79,7 @@ __submenu_application_selection() {
 		"AppImageLauncher" \
 		"Diagrams.net" \
 		"GitKraken" \
-		"Linux home profile" \
+		"Linux home settings" \
 		"Linux settings" \
 		"Mark Text" \
 		"Mendeley" \
@@ -110,9 +110,9 @@ __submenu_application_selection() {
 				gitkraken
 				__post_task
 				;;
-			"Linux home profile")
+			"Linux home settings")
 				__pre_task
-				linux_home_profile
+				linux_home_settings
 				__post_task
 				;;
 			"Linux settings")
@@ -294,7 +294,7 @@ main() {
 					echo -e " 1. AppImageLauncher"
 					echo -e " 2. Diagrams.net"
 					echo -e " 3. GitKraken"
-					echo -e " 4. Linux home profile"
+					echo -e " 4. Linux home settings"
 					echo -e " 5. Linux settings"
 					echo -e " 6. Mark Text"
 					echo -e " 7. Mendeley"
@@ -316,7 +316,7 @@ main() {
 					gitkraken
 					__post_task
 					__pre_task
-					linux_home_profile
+					linux_home_settings
 					__post_task
 					__pre_task
 					linux_settings
