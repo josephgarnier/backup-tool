@@ -587,20 +587,19 @@ incremental_save_to_remote_disk() {
 		exit -1
 	fi
 
-	local -r -a SRC_DIRS=( \
-		"/home/joseph/Documents/Documents_Administratifs" \
-		"/home/joseph/Documents/Graphisme_et_Modelisation" \
-		"/home/joseph/Documents/Livres" \
-		"/home/joseph/Documents/Reserve_Cyberdefense" \
-		"/home/joseph/Documents/Scolarite" \
-		"/home/joseph/Documents/Sport" \
-		"/home/joseph/Documents/Travail" \
-	)
+	local -r SRC_BASE_DIR="/home/joseph/Documents"
 	local -r DEST_DIR="admin@192.168.0.253:/shares/Documents/Joseph"
 	local -r OPTIONS="--checksum --delete --hard-links --human-readable --itemize-changes --links --perms --progress --protect-args --recursive --times --verbose"
 	
+	local -a src_dirs=()
+	shopt -s globstar
+	for file in "${SRC_BASE_DIR}"/*; do
+		src_dirs+=("${file}")
+	done
+	shopt -u globstar
+
 	echo -e "============================="
-	for path in "${SRC_DIRS[@]}"; do
+	for path in "${src_dirs[@]}"; do
 		echo -e "  save content of \"${path}\" to \"${DEST_DIR}\" directory..."
 		rsync ${OPTIONS} "${path}" "${DEST_DIR}"
 		echo -status "${?}" "${?}"
