@@ -15,12 +15,12 @@ settings {
 
 -- key is full path directory, value is directory name
 local sources = {
-	["/home/joseph/Documents/Travail/Ingenerie/Projets/Digital_Garden"] = "Digital_Garden",
+	["/home/joseph/Documents/1_Projects/Digital_Garden"] = "Digital_Garden",
 	["/home/joseph/Documents/Travail/Recherche/Projets/BeInG"] = "BeInG"
 }
 
 local exclude_rules = {
-	["/home/joseph/Documents/Travail/Ingenerie/Projets/Digital_Garden"] = {},
+	["/home/joseph/Documents/1_Projects/Digital_Garden"] = {},
 	["/home/joseph/Documents/Travail/Recherche/Projets/BeInG"] = {
 		'/Etat_de_l_Art/video'
 	}
