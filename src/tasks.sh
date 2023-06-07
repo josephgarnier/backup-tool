@@ -28,16 +28,26 @@ source "${DIR}/utility.sh"
 appimage_launcher() {
 	echo -e "Backup AppImageLauncher."
 
-	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/AppImage_Launcher"
-	local -r OUTPUT_FILE_NAME="appimagelauncher.cfg"
-	local -r OUTPUT_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_FILE_NAME}"
+	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
+	local -r OUTPUT_BACKUP_DIR_NAME="app_image_launcher_linux_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
+	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 
-	echo -ne "  copy config file to temp directory..."
-	local error=$(cp --no-target-directory --preserve=all "/home/joseph/.config/appimagelauncher.cfg" "${OUTPUT_FILE}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
+	echo -ne "  create the temp backup directory \"${OUTPUT_BACKUP_DIR_NAME}\"."
+	local error=$(mkdir "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move config file \"${OUTPUT_FILE_NAME}\" to final destination \"${DEST_DIR}\"..."
-	error=$(mv --force "${OUTPUT_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
+	echo -ne "  copy config file to temp backup directory..."
+	error=$(cp --preserve=all "/home/joseph/.config/appimagelauncher.cfg" "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create the final zip file and clean temp directory..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv --force "${OUTPUT_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -e "Done!"
