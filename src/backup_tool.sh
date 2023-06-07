@@ -78,6 +78,8 @@ __submenu_application_selection() {
 	local -r -a MENU_OPTIONS=( \
 		"AppImageLauncher" \
 		"Diagrams.net" \
+		"Double Commander" \
+		"FreeFileSync" \
 		"GitKraken" \
 		"Linux Mint" \
 		"Mark Text" \
@@ -101,6 +103,16 @@ __submenu_application_selection() {
 			"Diagrams.net")
 				__pre_task
 				diagrams_net
+				__post_task
+				;;
+			"Double Commander")
+				__pre_task
+				double_commander
+				__post_task
+				;;
+			"FreeFileSync")
+				__pre_task
+				freefilesync
 				__post_task
 				;;
 			"GitKraken")
@@ -281,16 +293,18 @@ main() {
 					echo -e "Summary of backup steps:"
 					echo -e " 1. AppImageLauncher"
 					echo -e " 2. Diagrams.net"
-					echo -e " 3. GitKraken"
-					echo -e " 4. Linux Mint"
-					echo -e " 5. Mark Text"
-					echo -e " 6. Mendeley"
-					echo -e " 7. Qt Creator"
-					echo -e " 8. Recoll"
-					echo -e " 9. TeXstudio"
-					echo -e " 10. Visual Studio Code"
-					echo -e " 11. Zettlr"
-					echo -e " 12. Zotero"
+					echo -e " 3. Double Commander"
+					echo -e " 4. FreeFileSync"
+					echo -e " 5. GitKraken"
+					echo -e " 6. Linux Mint"
+					echo -e " 7. Mark Text"
+					echo -e " 8. Mendeley"
+					echo -e " 9. Qt Creator"
+					echo -e " 10. Recoll"
+					echo -e " 11. TeXstudio"
+					echo -e " 12. Visual Studio Code"
+					echo -e " 13. Zettlr"
+					echo -e " 14. Zotero"
 					echo -e ""
 					__pre_task
 					appimage_launcher
@@ -299,32 +313,38 @@ main() {
 					diagrams_net
 					__post_task
 					__pre_task
+					double_commander
+					__post_task
+					__pre_task
+					freefilesync
+					__post_task
+					__pre_task
 					gitkraken
 					__post_task
 					__pre_task
 					linux_mint
 					__post_task
-					__pre_task
-					mark_text
-					__post_task
-					__pre_task
-					mendeley
-					__post_task
-					__pre_task
-					qt_creator
-					__post_task
-					__pre_task
-					recoll
-					__post_task
+					# __pre_task
+					# mark_text # not installed
+					# __post_task
+					# __pre_task
+					# mendeley # not installed
+					# __post_task
+					# __pre_task
+					# qt_creator # not installed
+					# __post_task
+					# __pre_task
+					# recoll # not installed
+					# __post_task
 					__pre_task
 					texstudio
 					__post_task
 					__pre_task
 					visual_studio_code
 					__post_task
-					__pre_task
-					zettlr
-					__post_task
+					# __pre_task
+					# zettlr # not installed
+					# __post_task
 					__pre_task
 					zotero
 					__post_task
