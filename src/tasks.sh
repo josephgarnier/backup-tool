@@ -120,22 +120,28 @@ diagrams_net() {
 gitkraken() {
 	echo -e "Backup GitKraken."
 
-	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/GitKraken"
-	local -r OUTPUT_ZIP_NAME="GitKraken.zip"
+	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
+	local -r OUTPUT_BACKUP_DIR_NAME="gitkraken_linux_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
+	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
 	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 
-	echo -ne "  copy config files to temp directory..."
-	local error=$(cp --parents --archive "/home/joseph/.gitkraken" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -ne "  create the temp backup directory \"${OUTPUT_BACKUP_DIR_NAME}\"."
+	local error=$(mkdir "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  create a zip file with content of temp directory and clean it..."
+	echo -ne "  copy config folder to temp directory..."
+	error=$(cp --archive "/home/joseph/.gitkraken" "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create the final zip file and clean temp directory..."
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv --force "${OUTPUT_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
-	
+
 	echo -e "Done!"
 }
 
