@@ -127,22 +127,22 @@ __submenu_application_selection() {
 				;;
 			"Mark Text")
 				__pre_task
-				mark_text
+				# mark_text # not installed
 				__post_task
 				;;
 			"Mendeley")
 				__pre_task
-				mendeley
+				# mendeley # not installed
 				__post_task
 				;;
 			"Qt Creator")
 				__pre_task
-				qt_creator
+				# qt_creator # not installed
 				__post_task
 				;;
 			"Recoll")
 				__pre_task
-				recoll
+				# recoll # not installed
 				__post_task
 				;;
 			"TeXstudio")
@@ -157,7 +157,7 @@ __submenu_application_selection() {
 				;;
 			"Zettlr")
 				__pre_task
-				zettlr
+				# zettlr # not installed
 				__post_task
 				;;
 			"Zotero")
@@ -297,13 +297,13 @@ main() {
 					echo -e " 4. FreeFileSync"
 					echo -e " 5. GitKraken"
 					echo -e " 6. Linux Mint"
-					echo -e " 7. Mark Text"
-					echo -e " 8. Mendeley"
-					echo -e " 9. Qt Creator"
-					echo -e " 10. Recoll"
+					# echo -e " 7. Mark Text"
+					# echo -e " 8. Mendeley"
+					# echo -e " 9. Qt Creator"
+					# echo -e " 10. Recoll"
 					echo -e " 11. TeXstudio"
 					echo -e " 12. Visual Studio Code"
-					echo -e " 13. Zettlr"
+					# echo -e " 13. Zettlr"
 					echo -e " 14. Zotero"
 					echo -e ""
 					__pre_task
