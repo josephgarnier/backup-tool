@@ -81,12 +81,16 @@ diagrams_net() {
 	echo -status "${?}" "${error}"
 
 	echo -ne "  copy user config files and folders to temp backup directory..."
-	error=$((cp --archive "/home/joseph/.config/draw.io/IndexedDB" "${OUTPUT_BACKUP_DIR}" && \
-			cp --archive "/home/joseph/.config/draw.io/Local Storage" "${OUTPUT_BACKUP_DIR}" && \
-			cp --archive "/home/joseph/.config/draw.io/Session Storage" "${OUTPUT_BACKUP_DIR}" && \
-			cp --archive "/home/joseph/.config/draw.io/WebStorage" "${OUTPUT_BACKUP_DIR}" && \
-			cp --preserve=all "/home/joseph/.config/draw.io/Preferences" "${OUTPUT_BACKUP_DIR}" && \
-			cp --preserve=all "/home/joseph/.config/draw.io/config.json" "${OUTPUT_BACKUP_DIR}" \
+	error=$((cp --archive \
+			"/home/joseph/.config/draw.io/IndexedDB" \
+			"/home/joseph/.config/draw.io/Local Storage" \
+			"/home/joseph/.config/draw.io/Session Storage" \
+			"/home/joseph/.config/draw.io/WebStorage" \
+			"${OUTPUT_BACKUP_DIR}" && \
+			cp --preserve=all \
+			"/home/joseph/.config/draw.io/Preferences" \
+			"/home/joseph/.config/draw.io/config.json" \
+			"${OUTPUT_BACKUP_DIR}" \
 		) \
 		2>&1 1>/dev/null \
 	)
