@@ -12,8 +12,6 @@ readonly MENU_ENTRY_FILE="/home/joseph/.local/share/applications/backup_tool_ser
 
 #######################################
 # The Main function.
-# Use `backup_tools.sh onstartup` to start the task start_dropbox_synchronizer_daemon on startup.
-# Use `backup_tools.sh onshutdown` to start the task stop_dropbox_synchronizer_daemon on shutdown.
 # Globals:
 #   None.
 # Arguments:
