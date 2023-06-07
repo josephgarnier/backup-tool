@@ -29,7 +29,7 @@ appimage_launcher() {
 	echo -e "Backup AppImageLauncher."
 
 	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
-	local -r OUTPUT_BACKUP_DIR_NAME="app_image_launcher_linux_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR_NAME="appimagelauncher_linux_$(date +%F)"
 	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
 	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
 	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
