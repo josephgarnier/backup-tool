@@ -79,11 +79,9 @@ __submenu_application_selection() {
 		"AppImageLauncher" \
 		"Diagrams.net" \
 		"GitKraken" \
-		"Linux home settings" \
-		"Linux settings" \
+		"Linux Mint" \
 		"Mark Text" \
 		"Mendeley" \
-		"PPA source list" \
 		"Qt Creator" \
 		"Recoll" \
 		"TeXstudio" \
@@ -110,14 +108,9 @@ __submenu_application_selection() {
 				gitkraken
 				__post_task
 				;;
-			"Linux home settings")
+			"Linux Mint")
 				__pre_task
-				linux_home_settings
-				__post_task
-				;;
-			"Linux settings")
-				__pre_task
-				linux_settings
+				linux_mint
 				__post_task
 				;;
 			"Mark Text")
@@ -128,11 +121,6 @@ __submenu_application_selection() {
 			"Mendeley")
 				__pre_task
 				mendeley
-				__post_task
-				;;
-			"PPA source list")
-				__pre_task
-				ppa_source_list
 				__post_task
 				;;
 			"Qt Creator")
@@ -294,17 +282,15 @@ main() {
 					echo -e " 1. AppImageLauncher"
 					echo -e " 2. Diagrams.net"
 					echo -e " 3. GitKraken"
-					echo -e " 4. Linux home settings"
-					echo -e " 5. Linux settings"
-					echo -e " 6. Mark Text"
-					echo -e " 7. Mendeley"
-					echo -e " 8. PPA source list"
-					echo -e " 9. Qt Creator"
-					echo -e " 10. Recoll"
-					echo -e " 11. TeXstudio"
-					echo -e " 12. Visual Studio Code"
-					echo -e " 13. Zettlr"
-					echo -e " 14. Zotero"
+					echo -e " 4. Linux Mint"
+					echo -e " 5. Mark Text"
+					echo -e " 6. Mendeley"
+					echo -e " 7. Qt Creator"
+					echo -e " 8. Recoll"
+					echo -e " 9. TeXstudio"
+					echo -e " 10. Visual Studio Code"
+					echo -e " 11. Zettlr"
+					echo -e " 12. Zotero"
 					echo -e ""
 					__pre_task
 					appimage_launcher
@@ -316,19 +302,13 @@ main() {
 					gitkraken
 					__post_task
 					__pre_task
-					linux_home_settings
-					__post_task
-					__pre_task
-					linux_settings
+					linux_mint
 					__post_task
 					__pre_task
 					mark_text
 					__post_task
 					__pre_task
 					mendeley
-					__post_task
-					__pre_task
-					ppa_source_list
 					__post_task
 					__pre_task
 					qt_creator

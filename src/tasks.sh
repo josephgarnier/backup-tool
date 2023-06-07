@@ -185,6 +185,65 @@ linux_home_settings() {
 }
 
 #######################################
+# Backup Linux home settings
+# Globals:
+#   PROJECT_TEMP_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   None.
+#######################################
+linux_mint() {
+		echo -e "Backup Diagrams.net."
+
+	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
+	local -r OUTPUT_BACKUP_DIR_NAME="linux_mint_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
+	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
+
+	echo -ne "  create the temp backup directory \"${OUTPUT_BACKUP_DIR_NAME}\"."
+	local error=$(mkdir "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  copy Linux home settings files and folders to temp backup directory..."
+	error=$(cp --preserve=all \
+		"/home/joseph/.profile" \
+		"/home/joseph/.bashrc" \
+		"/home/joseph/.nvidia-settings-rc" \
+		"${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null \
+	) # It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  copy source list to temp backup directory..."
+	error=$(cp --archive "/etc/apt/sources.list.d" "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  save all linux settings in temp backup directory..."
+	error=$(script --return --command "dconf dump / > \""${OUTPUT_BACKUP_DIR}"/linux_settings.txt\"" /dev/null 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  save all trusted keys in sources.keys file of temp backup directory..."
+	error=$(script --return --command "apt-key exportall > \""${OUTPUT_BACKUP_DIR}"/sources.keys\"" /dev/null 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create the final zip file and clean temp directory..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv --force "${OUTPUT_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -e "Done!"
+}
+
+#######################################
 # Backup Linux settings
 # Globals:
 #   PROJECT_TEMP_DIR.
