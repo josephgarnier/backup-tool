@@ -185,7 +185,7 @@ linux_home_settings() {
 }
 
 #######################################
-# Backup Linux home settings
+# Backup Linux Mint
 # Globals:
 #   PROJECT_TEMP_DIR.
 # Arguments:
@@ -216,7 +216,8 @@ linux_mint() {
 		"/home/joseph/.profile" \
 		"/home/joseph/.bashrc" \
 		"/home/joseph/.nvidia-settings-rc" \
-		"${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null \
+		"${OUTPUT_BACKUP_DIR}" \
+		2>&1 1>/dev/null \
 	) # It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
