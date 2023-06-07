@@ -541,40 +541,28 @@ texstudio() {
 visual_studio_code() {
 	echo -e "Backup Visual Studio Code."
 
-	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Visual_Studio_Code"
-	local -r OUTPUT_EXTENSIONS_ZIP_NAME="Extensions.zip"
-	local -r OUTPUT_USER_ZIP_NAME="User.zip"
-	local -r OUTPUT_EXTENSIONS_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_EXTENSIONS_ZIP_NAME}"
-	local -r OUTPUT_USER_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_USER_ZIP_NAME}"
+	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
+	local -r OUTPUT_BACKUP_DIR_NAME="visual_studio_code_linux_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
+	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 
-	# Extensions files
-	echo -ne "  copy extensions files to temp directory..."
-	local error=$(cp --parents --archive "/home/joseph/.vscode/extensions" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
-	echo -status "${?}" "${error}"
-
-	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_EXTENSIONS_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -ne "  create the temp backup directory \"${OUTPUT_BACKUP_DIR_NAME}\"."
+	local error=$(mkdir "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_EXTENSIONS_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
-	error=$(mv --force "${OUTPUT_EXTENSIONS_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
-	echo -status "${?}" "${error}"
-	
-	assert_eq "$(ls -A "${PROJECT_TEMP_DIR}")" "" "\"/temp\" directory is not empty!"
-	
-	# User files
-	echo -ne "  copy user files to temp directory..."
-	error=$(cp --parents --archive "/home/joseph/.config/Code/User" "${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -ne "  copy user folder to temp directory..."
+	error=$(cp --archive "/home/joseph/.config/Code/User" "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
 	echo -status "${?}" "${error}"
 
-	echo -ne "  create a zip file with content of temp directory and clean it..."
-	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_USER_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -ne "  create the final zip file and clean temp directory..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  move the generate \"${OUTPUT_USER_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
-	error=$(mv --force "${OUTPUT_USER_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv --force "${OUTPUT_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
-	
+
 	echo -e "Done!"
 }
 
