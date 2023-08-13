@@ -81,6 +81,7 @@ __submenu_application_selection() {
 		"Double Commander" \
 		"FreeFileSync" \
 		"GitKraken" \
+		"Kopia" \
 		"Linux Mint" \
 		"Mark Text" \
 		"Mendeley" \
@@ -120,6 +121,11 @@ __submenu_application_selection() {
 				gitkraken
 				__post_task
 				;;
+			"Kopia")
+				__pre_task
+				kopia
+				__post_task
+				;;
 			"Linux Mint")
 				__pre_task
 				linux_mint
@@ -142,7 +148,7 @@ __submenu_application_selection() {
 				;;
 			"Recoll")
 				__pre_task
-				# recoll # not installed
+				recoll
 				__post_task
 				;;
 			"TeXstudio")
@@ -296,15 +302,16 @@ main() {
 					echo -e " 3. Double Commander"
 					echo -e " 4. FreeFileSync"
 					echo -e " 5. GitKraken"
-					echo -e " 6. Linux Mint"
-					# echo -e " 7. Mark Text"
-					# echo -e " 8. Mendeley"
-					# echo -e " 9. Qt Creator"
-					# echo -e " 10. Recoll"
-					echo -e " 11. TeXstudio"
-					echo -e " 12. Visual Studio Code"
-					# echo -e " 13. Zettlr"
-					echo -e " 14. Zotero"
+					echo -e " 6. Kopia"
+					echo -e " 7. Linux Mint"
+					# echo -e " 8. Mark Text"
+					# echo -e " 9. Mendeley"
+					# echo -e " 10. Qt Creator"
+					echo -e " 11. Recoll"
+					echo -e " 12. TeXstudio"
+					echo -e " 13. Visual Studio Code"
+					# echo -e " 14. Zettlr"
+					echo -e " 15. Zotero"
 					echo -e ""
 					__pre_task
 					appimage_launcher
@@ -322,6 +329,9 @@ main() {
 					gitkraken
 					__post_task
 					__pre_task
+					kopia
+					__post_task
+					__pre_task
 					linux_mint
 					__post_task
 					# __pre_task
@@ -333,9 +343,9 @@ main() {
 					# __pre_task
 					# qt_creator # not installed
 					# __post_task
-					# __pre_task
-					# recoll # not installed
-					# __post_task
+					__pre_task
+					recoll
+					__post_task
 					__pre_task
 					texstudio
 					__post_task
