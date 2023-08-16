@@ -25,7 +25,7 @@ source "${DIR}/utility.sh"
 # Exits:
 #   None.
 #######################################
-appimage_launcher() {
+appimagelauncher() {
 	echo -e "Backup AppImageLauncher."
 
 	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
@@ -40,6 +40,53 @@ appimage_launcher() {
 
 	echo -ne "  copy config file to temp backup directory..."
 	error=$(cp --preserve=all "/home/joseph/.config/appimagelauncher.cfg" "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create the final zip file and clean temp directory..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv --force "${OUTPUT_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -e "Done!"
+}
+
+#######################################
+# Backup Bitwarden
+# Globals:
+#   PROJECT_TEMP_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   None.
+#######################################
+bitwarden() {
+	echo -e "Backup Bitwarden."
+
+	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
+	local -r OUTPUT_BACKUP_DIR_NAME="bitwarden_linux_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
+	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
+
+	echo -ne "  create the temp backup directory \"${OUTPUT_BACKUP_DIR_NAME}\"."
+	local error=$(mkdir "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  copy user config files and folders to temp backup directory..."
+	error=$((cp --preserve=all \
+			"/home/joseph/.config/Bitwarden/data.json" \
+			"${OUTPUT_BACKUP_DIR}" \
+		) \
+		2>&1 1>/dev/null \
+	)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create the final zip file and clean temp directory..."
@@ -262,6 +309,54 @@ kopia() {
 
 	echo -ne "  copy config folder to temp directory..."
 	error=$(cp --archive "/home/joseph/.config/kopia" "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null) #-a is same as -dR --preserve=all. It preserve mode, ownership and timestamps.
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create the final zip file and clean temp directory..."
+	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
+	error=$(mv --force "${OUTPUT_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -e "Done!"
+}
+
+#######################################
+# Backup Leviia
+# Globals:
+#   PROJECT_TEMP_DIR.
+# Arguments:
+#   None.
+# Outputs:
+#   Write messages to STDOUT.
+#   Write errors to STDERR.
+# Returns:
+#   None.
+# Exits:
+#   None.
+#######################################
+leviia() {
+	echo -e "Backup Leviia."
+
+	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
+	local -r OUTPUT_BACKUP_DIR_NAME="leviia_linux_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
+	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
+	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
+
+	echo -ne "  create the temp backup directory \"${OUTPUT_BACKUP_DIR_NAME}\"."
+	local error=$(mkdir "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  copy user config files and folders to temp backup directory..."
+	error=$((cp --preserve=all \
+			"/home/joseph/.config/Leviia/leviia.cfg" \
+			"/home/joseph/.config/Leviia/sync-exclude.lst" \
+			"${OUTPUT_BACKUP_DIR}" \
+		) \
+		2>&1 1>/dev/null \
+	)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  create the final zip file and clean temp directory..."
@@ -718,32 +813,43 @@ visual_studio_code() {
 #######################################
 zettlr() {
 	echo -e "Backup Zettlr."
-	
-	local -r DEST_DIR="/home/joseph/Documents/Travail/Logiciels_Outils_et_Configurations/Zettlr"
-	local -r OUTPUT_ZIP_NAME="Zettlr.zip"
+
+	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
+	local -r OUTPUT_BACKUP_DIR_NAME="zettlr_linux_$(date +%F)"
+	local -r OUTPUT_BACKUP_DIR="${PROJECT_TEMP_DIR}/${OUTPUT_BACKUP_DIR_NAME}"
+	local -r OUTPUT_ZIP_NAME="${OUTPUT_BACKUP_DIR_NAME}.zip"
 	local -r OUTPUT_ZIP_FILE="${PROJECT_TEMP_DIR}/${OUTPUT_ZIP_NAME}"
 
-	echo -ne "  copy each file to temp directory..."
-	local error=$(cp --parents --preserve=all \
-		"/home/joseph/.config/Zettlr/stats.json" \
-		"/home/joseph/.config/Zettlr/config.json" \
-		"/home/joseph/.config/Zettlr/custom.css" \
-		"/home/joseph/.config/Zettlr/custom_model_export.tex" \
-		"/home/joseph/.config/Zettlr/default_style.csl" \
-		"/home/joseph/.config/Zettlr/tags.json" \
-		"/home/joseph/.config/Zettlr/targets.json" \
-		"/home/joseph/.config/Zettlr/user.dic" \
-		"${PROJECT_TEMP_DIR}" 2>&1 1>/dev/null) # It preserve mode, ownership and timestamps.
+	echo -ne "  create the temp backup directory \"${OUTPUT_BACKUP_DIR_NAME}\"."
+	local error=$(mkdir "${OUTPUT_BACKUP_DIR}" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
-	echo -ne "  create a zip file with output directory content..."
+	echo -ne "  copy user config files and folders to temp backup directory..."
+	error=$((cp --archive \
+			"/home/joseph/.config/Zettlr/defaults" \
+			"/home/joseph/.config/Zettlr/snippets" \
+			"${OUTPUT_BACKUP_DIR}" && \
+			cp --preserve=all \
+			"/home/joseph/.config/Zettlr/config.json" \
+			"/home/joseph/.config/Zettlr/custom.css" \
+			"/home/joseph/.config/Zettlr/stats.json" \
+			"/home/joseph/.config/Zettlr/tags.json" \
+			"/home/joseph/.config/Zettlr/targets.json" \
+			"/home/joseph/.config/Zettlr/user.dic" \
+			"${OUTPUT_BACKUP_DIR}" \
+		) \
+		2>&1 1>/dev/null \
+	)
+	echo -status "${?}" "${error}"
+
+	echo -ne "  create the final zip file and clean temp directory..."
 	error=$((cd "${PROJECT_TEMP_DIR}" && zip --recurse-paths --move "${OUTPUT_ZIP_NAME}" *) 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
 
 	echo -ne "  move the generate \"${OUTPUT_ZIP_NAME}\" file to final destination \"${DEST_DIR}\"..."
 	error=$(mv --force "${OUTPUT_ZIP_FILE}" "${DEST_DIR}/" 2>&1 1>/dev/null)
 	echo -status "${?}" "${error}"
-	
+
 	echo -e "Done!"
 }
 

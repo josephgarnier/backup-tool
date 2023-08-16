@@ -77,11 +77,13 @@ __submenu_application_selection() {
 	echo -e "=== Specific app menu selection ==="
 	local -r -a MENU_OPTIONS=( \
 		"AppImageLauncher" \
+		"Bitwarden" \
 		"Diagrams.net" \
 		"Double Commander" \
 		"FreeFileSync" \
 		"GitKraken" \
 		"Kopia" \
+		"Leviia" \
 		"Linux Mint" \
 		"Mark Text" \
 		"Mendeley" \
@@ -98,7 +100,12 @@ __submenu_application_selection() {
 		case "${opt}" in
 			"AppImageLauncher")
 				__pre_task
-				appimage_launcher
+				appimagelauncher
+				__post_task
+				;;
+			"Bitwarden")
+				__pre_task
+				bitwarden
 				__post_task
 				;;
 			"Diagrams.net")
@@ -124,6 +131,11 @@ __submenu_application_selection() {
 			"Kopia")
 				__pre_task
 				kopia
+				__post_task
+				;;
+			"Leviia")
+				__pre_task
+				leviia
 				__post_task
 				;;
 			"Linux Mint")
@@ -163,7 +175,7 @@ __submenu_application_selection() {
 				;;
 			"Zettlr")
 				__pre_task
-				# zettlr # not installed
+				zettlr
 				__post_task
 				;;
 			"Zotero")
@@ -298,23 +310,28 @@ main() {
 					__pre_task
 					echo -e "Summary of backup steps:"
 					echo -e " 1. AppImageLauncher"
-					echo -e " 2. Diagrams.net"
-					echo -e " 3. Double Commander"
-					echo -e " 4. FreeFileSync"
-					echo -e " 5. GitKraken"
-					echo -e " 6. Kopia"
-					echo -e " 7. Linux Mint"
-					# echo -e " 8. Mark Text"
-					# echo -e " 9. Mendeley"
-					# echo -e " 10. Qt Creator"
-					echo -e " 11. Recoll"
-					echo -e " 12. TeXstudio"
-					echo -e " 13. Visual Studio Code"
-					# echo -e " 14. Zettlr"
-					echo -e " 15. Zotero"
+					echo -e " 2. Bitwarden"
+					echo -e " 3. Diagrams.net"
+					echo -e " 4. Double Commander"
+					echo -e " 5. FreeFileSync"
+					echo -e " 6. GitKraken"
+					echo -e " 7. Kopia"
+					echo -e " 8. Leviia"
+					echo -e " 9. Linux Mint"
+					# echo -e " 10. Mark Text"
+					# echo -e " 11. Mendeley"
+					# echo -e " 12. Qt Creator"
+					echo -e " 13. Recoll"
+					echo -e " 14. TeXstudio"
+					echo -e " 15. Visual Studio Code"
+					echo -e " 16. Zettlr"
+					echo -e " 17. Zotero"
 					echo -e ""
 					__pre_task
-					appimage_launcher
+					appimagelauncher
+					__post_task
+					__pre_task
+					bitwarden
 					__post_task
 					__pre_task
 					diagrams_net
@@ -330,6 +347,9 @@ main() {
 					__post_task
 					__pre_task
 					kopia
+					__post_task
+					__pre_task
+					leviia
 					__post_task
 					__pre_task
 					linux_mint
@@ -352,9 +372,9 @@ main() {
 					__pre_task
 					visual_studio_code
 					__post_task
-					# __pre_task
-					# zettlr # not installed
-					# __post_task
+					__pre_task
+					zettlr
+					__post_task
 					__pre_task
 					zotero
 					__post_task
