@@ -85,9 +85,9 @@ __submenu_application_selection() {
 		"Kopia" \
 		"Leviia" \
 		"Linux Mint" \
-		"Mark Text" \
-		"Mendeley" \
-		"Qt Creator" \
+		# "Mark Text" \
+		# "Mendeley" \
+		# "Qt Creator" \
 		"Recoll" \
 		"TeXstudio" \
 		"Visual Studio Code" \
@@ -143,21 +143,21 @@ __submenu_application_selection() {
 				linux_mint
 				__post_task
 				;;
-			"Mark Text")
-				__pre_task
+			# "Mark Text")
+				# __pre_task
 				# mark_text # not installed
-				__post_task
-				;;
-			"Mendeley")
-				__pre_task
+				# __post_task
+				# ;;
+			# "Mendeley")
+				# __pre_task
 				# mendeley # not installed
-				__post_task
-				;;
-			"Qt Creator")
-				__pre_task
+				# __post_task
+				# ;;
+			# "Qt Creator")
+				# __pre_task
 				# qt_creator # not installed
-				__post_task
-				;;
+				# __post_task
+				# ;;
 			"Recoll")
 				__pre_task
 				recoll
