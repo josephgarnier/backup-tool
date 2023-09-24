@@ -424,7 +424,7 @@ linux_home_settings() {
 #   None.
 #######################################
 linux_mint() {
-		echo -e "Backup Diagrams.net."
+		echo -e "Backup Linux Mint."
 
 	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
 	local -r OUTPUT_BACKUP_DIR_NAME="linux_mint_$(date +%F)"
