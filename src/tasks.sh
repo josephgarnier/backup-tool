@@ -169,7 +169,7 @@ diagrams_net() {
 #   None.
 #######################################
 double_commander() {
-	echo -e "Double Commander."
+	echo -e "Backup Double Commander."
 
 	local -r DEST_DIR="/home/joseph/6_Sauvegardes"
 	local -r OUTPUT_BACKUP_DIR_NAME="double_commander_linux_$(date +%F)"
